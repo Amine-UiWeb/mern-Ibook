@@ -8,7 +8,6 @@ import PhotoSlider from "../../components/main/photoSlider/PhotoSlider.jsx"
 import NoPageData from "../../components/noPageData/NoPageData.jsx"
 import { NoSectionData } from "../../components/npSectionData/NoSectionData.jsx"
 import "./AuthorPage.css"
-import { NoSectionData } from "../../components/npSectionData/NoSectionData.jsx"
 
 const IDsLinks = {
   amazon: { title: "Amazon ID", url: `https://www.amazon.com/-/e/LINK_ID` },
@@ -101,9 +100,10 @@ const AuthorPage = () => {
                 <h6>Top subjects:</h6>
                 { info.top_subjects.map((subject, i) => (
                     <Fragment key={i}>
-                      <Link to={'/subjects/' + subject.toLowerCase()} className="a">  
-                        {subject}
-                      </Link>
+                      <Link 
+                        to={'/browse/subjects/' + subject.toLowerCase()} 
+                        className="a"
+                      >{subject}</Link>
                       {", "}
                     </Fragment>
                   )) 

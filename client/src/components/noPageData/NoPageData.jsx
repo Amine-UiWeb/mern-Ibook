@@ -11,13 +11,15 @@ const NoPageData = ({ error }) => {
   return (
     <div className="no-page-data">
       <p>
-        <span className="fw-6">Sorry. </span>
-        <span className="fs-0-9">
-          There have been a problem getting the needed information from the server.
-        </span>
-        {error && <span>{error}</span>}
+        <b className="fs-1-1 fw-5">Oppsss...</b> 
+        there have been a problem loading data from the server.
       </p>
-      <p className="mt-2 tc">
+
+      {error && (
+        <p className="fs-0-9 fw-5 mt-1">Error description: <span>({error})</span></p>
+      )}
+      
+      <p className="mt-2 ta-c">
         <button className="a" onClick={goBack}>Go Back</button>
       </p>      
     </div>

@@ -3,11 +3,11 @@
   width: 100%;
   background: var(--pri-100);
   outline: 1px solid #e9e9e9;
-  border-radius: .3rem;
+  border-radius: .15rem;
   animation: pulse 1s infinite;
 }
 
-.mw-50 { max-width: 50%; }
+.mw-50 { max-width: 50%; color: mediumslateblue; }
 .mw-100 { max-width: 100%; }
 .h-1 { height: 1rem; }
 .h-2 { height: 2rem; }

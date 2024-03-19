@@ -30,7 +30,7 @@ const Nav = ({ isPanelOpen, setIsPanelOpen }) => {
   return (
     <nav 
       onMouseLeave={() => setIsPanelOpen(false)} 
-      className={isPanelOpen ? 'nav open' : 'nav'}
+      className={'nav flex-row ai-c jc-c' + (isPanelOpen ? ' open' : '')}
     >
       
       <div className="browse-wrapper">

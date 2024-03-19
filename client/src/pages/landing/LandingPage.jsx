@@ -4,6 +4,7 @@ import axios from "axios"
 import { GENRES } from "../../utils/constants"
 
 import BooksCarousel from "../../components/main/booksCarousel/BooksCarousel.jsx"
+import NoPageData from "../../components/noPageData/NoPageData.jsx"
 import { ChevronRight } from "../../components/svgs/ChevronRight"
 import "./LandingPage.css"
 
@@ -13,10 +14,15 @@ const BASE_URL = 'https://openlibrary.org/subjects'
 const LandingPage = () => {
 
   const [books, setBooks] = useState({})
+  const [isLoading, setIsLoading] = useState(false)
+  const [fetchError, setFetchError] = useState(false)
 
   // https://openlibrary.org/trending/monthly.json
 
   useEffect(() => {
+
+    setFetchError(false)
+    setIsLoading(true)
 
     // fetch books for each specified subject
     Object.keys(GENRES).forEach(genre => {
@@ -33,9 +39,16 @@ const LandingPage = () => {
         .then(data => {
           setBooks(prev => ({ ...prev, [genre]: data }))
         })
+        .catch((err) => setFetchError(err?.message || err))
+        .finally(() => setIsLoading(false))
     }
 
   }, [])
+
+
+  if (!isLoading && fetchError) {
+    return <NoPageData error={fetchError} />
+  }
 
 
   return (

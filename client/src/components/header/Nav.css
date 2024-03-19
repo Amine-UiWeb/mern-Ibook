@@ -1,12 +1,9 @@
 .nav {
   position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   gap: 1rem;
   padding: .4rem .6rem;
   background: var(--light-3);
-  border: 1px solid var(--wheat-400);
+  box-shadow: 0 0 2px 1px var(--wheat-400);
   border-radius: 1rem;
 }
 
@@ -148,16 +145,14 @@
     gap: 2rem;
     background: var(--light-3);
     padding: 0px;
-    border: none;
     border-radius: 0;
     overflow: hidden;
     z-index: 10;
+    border: none;
+    box-shadow: none;
     transition: .3s cubic-bezier(0.6, -0.28, 0.74, 0.05);
     transition-property: height;
   }
-  .nav.open {
-    height: 6rem;
-    border-block: 2px solid var(--wheat-600);
-  }
+  .nav.open { height: 4.4rem; }
   .nav.open:hover { overflow: visible; }
 }

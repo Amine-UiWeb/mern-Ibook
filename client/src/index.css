@@ -120,13 +120,11 @@
 body {
   min-height: 100vh;
   min-width: 300px;
-  border-inline: 1px solid var(--light-3);
   padding: 0;
   margin: 0;
 }
 
 /* todo: make scrollbar a bit thinner */
-
 body::-webkit-scrollbar { width: 16px; }
 body::-webkit-scrollbar-track { background-color: var(--light-1); }
 body::-webkit-scrollbar-thumb {
@@ -139,9 +137,11 @@ body::-webkit-scrollbar-thumb:hover { background-color: var(--pri-400); }
 
 .App { min-height: 100vh; }
 
+header, footer, main.main { border-inline: 1px solid var(--light-3); }
+
 main.main {
   min-height: 80vh;
-  padding: 8rem 1rem 4rem;
+  padding: 4rem 1rem;
 }
 
 .container {
@@ -207,13 +207,15 @@ input:where([type="search"], [type="text"], [type="password"], [type="Email"]) {
   border-radius: .3rem;
   transition: all .3s;
 }
-input:where([type="search"], [type="text"], [type="password"], [type="Email"])
-:focus-within {
+input:where(
+  [type="search"], [type="text"], [type="password"], [type="Email"]
+):focus-within {
   outline-color: var(--pri-100);
   background: #fff;
 }
-input:where([type="search"], [type="text"], [type="password"], [type="Email"])
-::placeholder { font-size: var(--fs-0-95); }
+input:where(
+  [type="search"], [type="text"], [type="password"], [type="Email"]
+)::placeholder { font-size: var(--fs-0-95); }
 
 button {
   font-family: inherit;
@@ -518,7 +520,7 @@ misc
 
 
 @media (prefers-color-scheme: light) {
-  :root {}
+  /* :root {} */
   button { background-color: #f9f9f9; }
 }
 

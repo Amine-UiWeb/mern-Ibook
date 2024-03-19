@@ -17,8 +17,8 @@
 - [x] Implement __nav panel__ toggling.
 
 - [x] Create __WorkPage__ page.
-- [ ] Create __AuthorDetails__ page.
-- [ ] Add __skeleton loaders__ for headers, texts and pictures.
+- [x] Create __AuthorPage__ page.
+- [x] Add __skeleton loaders__ for headers, texts and pictures.
 
 - [x] Implement __form validation__, and display __validation errors__, for __login__ and __registration__ forms.
 - [x] Implement __state management__ for user authentication with __redux-toolkit__.

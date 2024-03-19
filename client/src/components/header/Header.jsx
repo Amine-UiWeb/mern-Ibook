@@ -9,18 +9,34 @@ import { MagnifyingGlass } from "../svgs/MagnifyingGlass"
 import { Spinner } from "../loading/spinner/Spinner.jsx"
 import "./Header.css"
 
+import { Throttle } from "../../utils/helpers/throttle.js"
+
 const BASE_URL = 'https://openlibrary.org/search.json?'
 const fields = 'title,author_name,key,cover_edition_key'
 const COVER_URL = (coverID) => `https://covers.openlibrary.org/b/olid/${coverID}-S.jpg`
 
 
 const Header = () => {
-
+  
   const [isPanelOpen, setIsPanelOpen] = useState(false)
-
+  
   const [searchText, setSearchText] = useState('')
   const [isSearching, setIsSearching] = useState(false)
   const [searchResults, setSearchResults] = useState([])
+  
+
+  // change header appearance on scroll
+  useEffect(() => {
+    var header = document.querySelector('header.header');
+
+    const scrolling = () => {
+      if (window.scrollY > 100) header.classList.add('scrolled')
+      else { header.classList.remove('scrolled') }
+    }
+    window.onscroll = Throttle(scrolling, 50)
+
+    window.onclick = () => header.classList.toggle('scrolled')
+  })
 
 
   const togglePanel = () => setIsPanelOpen(prev => !prev)
@@ -28,6 +44,7 @@ const Header = () => {
   const onSearchChange = (e) => setSearchText(e.target.value)
 
 
+  // search 
   const memoizedSearch = useCallback(
     (() => {
       let to
