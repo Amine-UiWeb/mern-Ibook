@@ -34,8 +34,6 @@ const Header = () => {
       else { header.classList.remove('scrolled') }
     }
     window.onscroll = Throttle(scrolling, 50)
-
-    window.onclick = () => header.classList.toggle('scrolled')
   })
 
 

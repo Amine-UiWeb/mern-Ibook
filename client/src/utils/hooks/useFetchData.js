@@ -4,14 +4,17 @@ import { useEffect, useState } from "react"
 const useFetchData = ({ end, dep, pathname }) => {
 
   const [data, setData] = useState(null)
-  const [isFetched, setIsFetched] = useState(false)
+  const [isFetchComplete, setIsFetchComplete] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
   const [isFetchError, setIsFetchError] = useState(false)
 
     useEffect(() => {
       // when workdata is still fetching 
-      if (dep !== pathname && !dep) setIsFetched(false)
-
+      if (!dep) setIsFetchComplete(false)
+      
       else {
+        setIsLoading(true)
+
         let url
 
         // Work page
@@ -53,15 +56,18 @@ const useFetchData = ({ end, dep, pathname }) => {
         }
         
 
-        fetch(url, { cache: 'force-cache' })
-          .then(res => res.json())
-          .then(data => setData(prev => data))
-          .catch(err => setIsFetchError(prev => err?.message || err )) 
-          .finally(() => setIsFetched(true))
+        // todo: use this only while developping
+        setTimeout(() => {          
+          fetch(url, { cache: 'force-cache' })
+            .then(res => res.json())
+            .then(data => setData(prev => data))
+            .catch(err => setIsFetchError(prev => err?.message || err )) 
+            .finally(() => setIsFetchComplete(prev => true))
+        }, 1000);
       }
     }, [dep, pathname])
 
-  return { data, isFetched, isFetchError }
+  return { data, isFetchComplete, isFetchError }
 }
 
 export default useFetchData

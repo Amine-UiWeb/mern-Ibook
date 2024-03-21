@@ -7,8 +7,9 @@ import useFetchData from "../../utils/hooks/useFetchData.js"
 import BooksCarousel from "../../components/main/booksCarousel/BooksCarousel.jsx"
 import NoPageData from "../../components/noPageData/NoPageData.jsx"
 import DotsLoader from "../../components/loading/dotsLoader/DotsLoader.jsx"
-import { HeaderSkeleton, ParagrahSkeleton, TextSkeleton } from 
-  "../../components/loading/SkeletonLoaders/Skeleton.jsx"
+import { 
+  TitleSkeleton, ParagrahSkeleton, TextSkeleton 
+} from "../../components/loading/SkeletonLoaders/Skeleton.jsx"
 import "./WorkPage.css"
 
 
@@ -21,8 +22,9 @@ const WorkPage = () => {
 
   // Fetch book info (using workId)
   /* ------------------------------ */
-  let { data: workData, isFetched: workFetched, isFetchError: isWorkFetchError } 
+  let { data: workData, isFetchComplete: workFetcheComplete, isFetchError: isWorkFetchError } 
     = useFetchData({ end: 'b_workdata', dep: pathname, pathname: pathname })
+  
   let title = workData?.title
   let authorKey = workData?.authors?.[0]?.author?.key || workData?.author?.key
   let subjects = workData?.subjects
@@ -36,14 +38,14 @@ const WorkPage = () => {
   })
 
   
-  let { data: ratings, isFetched: ratingFetched } = 
+  let { data: ratings, isFetchComplete: ratingFetched } = 
     useFetchData({ end: 'b_rating', dep: workData, pathname: pathname }) 
   let rating = ratings?.summary?.average?.toFixed(2)
 
 
   // todo: replace with search query using author key (as in author page)
   // and grab rating, number_of_pages_median, authorname, publishdate from that data instead
-  let { data: bookData, isFetched: bookFetched } = 
+  let { data: bookData, isFetchComplete: bookFetched } = 
     useFetchData({ end: 'b_bookdata', dep: workData, pathname: pathname }) 
   let authorName = bookData?.docs?.[0]?.author_name?.[0] 
   let publishDate = bookData?.docs?.[0]?.first_publish_year
@@ -77,7 +79,7 @@ const WorkPage = () => {
   return (
     <div className="book-details">
       
-      <h3 className="h3 title">{ title || <HeaderSkeleton /> }</h3>
+      <h3 className="h3 title">{ title || <TitleSkeleton /> }</h3>
 
 
       {/* details */}
@@ -114,27 +116,35 @@ const WorkPage = () => {
             )
           }
   
-          { (!workFetched || subjects) && (
-              !workFetched ? <ParagrahSkeleton nLines={3} />
-                : subjects.length > 0 ? (
-                  <h5 className="h5 subjects"><b>Subjects:</b>{" "}   
-                    {    
-                      subjects?.slice(0, 6)?.map((subject, i) => ( 
-                        <span key={i}>{" "}<Link to="#">{subject}{","}</Link>{" "}</span>)
-                      )
-                    }...
-                  </h5>
-                ) : null
+          { (!workFetcheComplete || subjects) && (
+              <h5 className="h5 subjects">
+                {
+                  !workFetcheComplete ? <ParagrahSkeleton nLines={3} />
+                  : subjects.length > 0 ? (
+                    <>
+                      <b>Subjects:{' '}</b>   
+                      {    
+                        subjects?.slice(0, 6)?.map((subject, i) => ( 
+                          <span key={i}>
+                            {" "}<Link to="#">{subject}{","}</Link>{" "}
+                          </span>)
+                        )
+                      }...
+                    </>
+                  ) 
+                    : null
+                }
+                </h5>
             )
           }
 
         </div>
 
-        { (!workFetched || description) && (
+        { (!workFetcheComplete || description) && (
             <div className="description">
               {
-                !workFetched ? <ParagrahSkeleton nLines={8} />
-                : <>
+                !workFetcheComplete ? <ParagrahSkeleton hasTitle={true} /> : 
+                  <>
                     <b>Description: </b>
                     <div>
                       {description?.split('\n').map((par, i) => 
@@ -175,7 +185,7 @@ const WorkPage = () => {
 
 
       {/* other works by the author */}
-      { (!workFetched || authorWorks?.docs?.length > 0) && (
+      { (!workFetcheComplete || authorWorks?.docs?.length > 0) && (
           authorWorks?.docs?.length > 0 && 
           <section className="author-books">
             <h4 className="h4 mb-1">Other works by the author:</h4>

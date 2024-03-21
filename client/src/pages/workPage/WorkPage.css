@@ -32,6 +32,12 @@
 .details-grid .h5.subjects a { font-size: .8rem; }
 .details-grid .h5.author a { font-size: 1rem; }
 
+
+/* skeleton */
+.skeleton-title { height: 45px; }
+.skeleton-text { height: 24px; }
+
+
 @media (max-width: 576px) {
   .details-grid { text-align: center; }
 

@@ -1,22 +1,21 @@
 .header { 
-  position: relative;
+  position: sticky;
+  top: 0;
   width: 100%;
   max-width: 1200px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-wrap: wrap;
-  margin-inline: auto;
   gap: 1.4rem;
-  padding: .5rem;
-  border-bottom: 2px solid var(--light-3);  
   background: var(--wheat-light);
-  z-index: 10;
+  border-bottom: 2px solid var(--light-3);  
+  padding: .5rem;
+  margin-inline: auto;
+  z-index: 100;
 }
-.header.scrolled { 
-  position: fixed;
-  box-shadow: 0 0 2px 2px var(--gray-400); 
-}
+.header.scrolled { box-shadow: 0 4px 2px -2px var(--gray-400); }
+
 
 /* panel toggler */
 

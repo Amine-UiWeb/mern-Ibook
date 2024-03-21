@@ -72,6 +72,11 @@
   --wheat-800: rgb(83, 67, 38);
   --wheat-dark: rgb(44, 35, 17);
 
+  /* todo: replace crimson with purple */
+  --purple: 165, 91, 140;
+  --purple-light-1: rgba(var(--purple), .8);
+  --purple-100: rgba(var(--purple), .2);
+
   --crimson-light-1: rgb(235, 217, 220);
   --crimson-light-2: rgb(235, 182, 192);
   --crimson-light-3: rgb(240, 153, 170);
@@ -349,7 +354,7 @@ margins
 .mr-auto { margin-right: auto; }
 
 .m-0 { margin: 0; }
-.m-0-5 { margin: .25rem; }
+.m-0-25 { margin: .25rem; }
 .m-0-5 { margin: .5rem; }
 .m-1 { margin: 1rem; }
 .m-1-5 { margin: 1.5rem; }
@@ -378,6 +383,7 @@ margins
 
 .mb-0 { margin-bottom: 0; }
 .mb-0-25 { margin-bottom: .25rem; }
+.mb-0-3 { margin-bottom: .3rem; }
 .mb-0-5 { margin-bottom: .5rem; }
 .mb-1 { margin-bottom: 1rem; }
 .mb-1-5 { margin-bottom: 1.5rem; }

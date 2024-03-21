@@ -7,8 +7,7 @@ import BooksCarousel from "../../components/main/booksCarousel/BooksCarousel.jsx
 import NoPageData from "../../components/noPageData/NoPageData.jsx"
 import { ChevronRight } from "../../components/svgs/ChevronRight"
 import "./LandingPage.css"
-
-const BASE_URL = 'https://openlibrary.org/subjects'
+import { Link } from "react-router-dom"
 
 
 const LandingPage = () => {
@@ -17,7 +16,6 @@ const LandingPage = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [fetchError, setFetchError] = useState(false)
 
-  // https://openlibrary.org/trending/monthly.json
 
   useEffect(() => {
 
@@ -26,19 +24,17 @@ const LandingPage = () => {
 
     // fetch books for each specified subject
     Object.keys(GENRES).forEach(genre => {
+      const BASE_URL = `https://openlibrary.org/subjects/${GENRES[genre]}.json?`
       const fields = `fields=key,cover_i,ratings_average`
-      const params = 'limit=12&offset=12'
-      const fetchUrl = `${BASE_URL}/${GENRES[genre]}.json?${fields}&${params}`
-
+      const group_and_sort = 'limit=20&page=1' + '&sort=already_read'
+      const fetchUrl = `${BASE_URL}${fields}${group_and_sort}`
       fetchBooks(fetchUrl, genre)
     })
 
     function fetchBooks(url, genre) {
       fetch(url, { method: 'GET', cache: 'force-cache' })
         .then(res => res.json())
-        .then(data => {
-          setBooks(prev => ({ ...prev, [genre]: data }))
-        })
+        .then(data => setBooks(prev => ({ ...prev, [genre]: data })))
         .catch((err) => setFetchError(err?.message || err))
         .finally(() => setIsLoading(false))
     }
@@ -59,18 +55,17 @@ const LandingPage = () => {
         <img src="" alt="" />
       </div>
       
-      { // pass each subject books to a BooksCarousel componenet
+      {
         Object.keys(books).map(key => (
           <section key={key} className="carousel-section">
             
             <div className="carousel-section-header ff-times m-1">
               <h3 className="h3 fw-4">
-                <a href="#" className="cap">
+                <Link to={'browse' + books?.[key]?.key} className="cap">
                   <span className="mr-0-5">{key}</span>
                   <ChevronRight />
-                </a>
+                </Link>
               </h3>
-              {/* display total work count (in far right, in gray color small size )  */}
               <span className="fw-7">- {books[key]?.work_count} Books -</span>
             </div>
 

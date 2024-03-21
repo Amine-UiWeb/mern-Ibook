@@ -37,13 +37,13 @@ const Nav = ({ isPanelOpen, setIsPanelOpen }) => {
         <button className="fw-6 fs-0-9">Browse</button>
         <ul className="browse-ul fw-5 fs-0-9">
 
-          <li className="genres-wrapper scrollbar-1">
-            <a href="#">Genres</a>
+          <li className="subjects-wrapper scrollbar-1">
+            <a href="#">Subjects</a>
             <ChevronRight />
-            <ul className="genres-ul">
+            <ul className="subjects-ul">
               { Object.keys(SUBJECTS)?.map((subject, i) => (
                   <li key={i}>
-                    <NavLink to={`browse/genres/${SUBJECTS[subject]}`}>
+                    <NavLink to={`browse/subjects/${SUBJECTS[subject]}`}>
                       {subject}
                     </NavLink>
                   </li>

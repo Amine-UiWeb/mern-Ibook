@@ -26,7 +26,7 @@ const SearchPaginList = ({ authorKey, totalWorks }) => {
   const [page, setPage] = useState(1)
   const [sortBy, setSortedBy] = useState('most_editions')
 
-  const { data, isLoading, isFetched, fetchError } = useFetchWorksPagin({ 
+  const { data, isLoading, fetchError } = useFetchWorksPagin({ 
     end: 'searchByAuthorKey', dep: authorKey, sortBy, page, limit 
   })
   const works = data?.docs
@@ -67,6 +67,7 @@ const SearchPaginList = ({ authorKey, totalWorks }) => {
 
   const pagination = (
     <div className="works-pagin flex-row jc-sb ai-c wrap">
+      
       <div className="pagin-side-btns">
         {(page >= 11) && <button onClick={() => prev(10)}>{'<<'}</button>}
         {(page > 1) && <button onClick={() => prev(1)}>{'< '}Prev</button>}
@@ -98,6 +99,7 @@ const SearchPaginList = ({ authorKey, totalWorks }) => {
         {(page < totalPages) && <button onClick={() => next(1)}>Next{' >'}</button>}
         {(page <= totalPages - 10) && <button onClick={() => next(10)}>{'>>'}</button>}
       </div>
+      
     </div>
   )
 

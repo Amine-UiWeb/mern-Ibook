@@ -6,8 +6,11 @@ import useFetchData from "../../utils/hooks/useFetchData.js"
 import SearchPaginList from "../../components/main/searchPagination/searchPaginList.jsx"
 import PhotoSlider from "../../components/main/photoSlider/PhotoSlider.jsx"
 import NoPageData from "../../components/noPageData/NoPageData.jsx"
-import { NoSectionData } from "../../components/npSectionData/NoSectionData.jsx"
+import { 
+  SubTitleSkeleton, TitleSkeleton, ParagrahSkeleton, HeaderSkeleton, CardSkeleton, TextSkeleton, OneLineSkeleton
+} from "../../components/loading/SkeletonLoaders/Skeleton.jsx"
 import "./AuthorPage.css"
+import DotsLoader from "../../components/loading/dotsLoader/DotsLoader.jsx"
 
 const IDsLinks = {
   amazon: { title: "Amazon ID", url: `https://www.amazon.com/-/e/LINK_ID` },
@@ -24,37 +27,38 @@ const AuthorPage = () => {
 
   const { pathname } = useLocation()
 
-  const { data: authorData, isFetched, isFetchError } 
+  const { data: authorData, isFetchComplete, isFetchError } 
     = useFetchData({ end: 'a_authordata', dep: pathname, pathname })
+
+  let birth_date = authorData?.birth_date || ''
+  let death_date = authorData?.death_date
+  let lifeSpan = birth_date + (death_date ? (' - ' + death_date) : '') 
+
   let ids = authorData?.remote_ids
   let photos = authorData?.photos
   let bio = authorData?.bio?.value ?? authorData?.bio
   
-  const { data: authorInfo, isFetched: isInfoFetched, isFetchError: isInfoError } 
+
+  const { data: authorInfo, isFetchComplete: isInfoFetched, isFetchError: isInfoError } 
     = useFetchData({ end: 'a_authorinfo', dep: authorData, pathname })
   const info = authorInfo?.docs?.[0]
   
 
   // authorData fetching failed
-  if (isFetched && isFetchError)  return <NoPageData />
+  if (isFetchComplete && isFetchError)  return <NoPageData />
 
 
   return (
     <div className="author-page">
 
-      { authorData?.name && (
-          <div className="content-head mt-1 mb-2">
-            <h1 className="h2 mb-1 fw-500">{authorData?.name}</h1>
-
-            { authorData?.birth_date && (
-                <p className="ta-c fs-1">(
-                  { 
-                    authorData?.birth_date + 
-                    (authorData?.death_date ? (' - ' + authorData?.death_date) : '') 
-                  }
-                )</p>
-              ) 
-            }
+      { (authorData?.name || !isFetchComplete) && (
+          <div className="content-head ta-c">
+            <h1 className="fw-8 h2 mb-1">
+              {authorData?.name || <TitleSkeleton />}
+            </h1>
+            <h4 className="fs-1 fw-4">
+              {lifeSpan?.length ? `(${lifeSpan})` : <SubTitleSkeleton />}
+            </h4>
           </div>
         )
       }
@@ -63,19 +67,34 @@ const AuthorPage = () => {
 
         <div className="contentTwothird">
           
-          { bio && (
+          { (bio || !isFetchComplete) && (
               <section className="description">
-                {bio?.split('\n').map((par, i) => 
-                  <p key={i}>{par}</p>
-                )}
+                { !isFetchComplete && <ParagrahSkeleton hasIndent={true} /> }
+                { bio && bio?.split('\n').map((par, i) => <p key={i}>{par}</p>) }
               </section>
             )
           }
 
-          { info?.work_count && (
+          { (info?.work_count || !isInfoFetched) && (
               <section className="search-pagin-container">
-                <h2 className="m-bl-1 fs-1-3 fw-7">{info.work_count} works</h2>
-                <SearchPaginList authorKey={pathname} totalWorks={info?.work_count} />
+                {
+                  info?.work_count ? (
+                    <>
+                      <h2 className="fs-1-3 fw-7">{info.work_count} works</h2>
+                      <SearchPaginList 
+                        authorKey={pathname} 
+                        totalWorks={info?.work_count} 
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <h2><HeaderSkeleton /></h2>
+                      <OneLineSkeleton />
+                      <OneLineSkeleton />
+                      {Array(3).fill(0).map((card, i) => <CardSkeleton key={i} />)}
+                    </>
+                  )
+                }
               </section>
             )
           }
@@ -84,29 +103,42 @@ const AuthorPage = () => {
         
         <div className="contentOnethird">
 
-          { photos && (
+          { (photos || !isFetchComplete) && (
               <section className="author_photo">
-                <PhotoSlider 
-                  pathname={pathname}
-                  ids={photos.slice(0, 5).filter(val => val != -1)}
-                  height="280px"
-                />
+                { photos ? (
+                    <PhotoSlider 
+                      pathname={pathname}
+                      ids={photos.slice(0, 5).filter(val => val != -1)}
+                      height="280px"
+                    />
+                  ) : <DotsLoader />
+                }
               </section>
             ) 
           }
 
-          { (info?.top_subjects?.length > 0) && (
+          { (!isFetchComplete || info?.top_subjects?.length > 0) && (
               <section className="top_subjects">
-                <h6>Top subjects:</h6>
-                { info.top_subjects.map((subject, i) => (
-                    <Fragment key={i}>
-                      <Link 
-                        to={'/browse/subjects/' + subject.toLowerCase()} 
-                        className="a"
-                      >{subject}</Link>
-                      {", "}
-                    </Fragment>
-                  )) 
+                { info?.top_subjects?.length > 0 ? (
+                    <>
+                      <h3>Top subjects:</h3>
+                      { info.top_subjects.map((subject, i) => (
+                          <Fragment key={i}>
+                            <Link 
+                              to={'/browse/subjects/' + subject.toLowerCase()} 
+                              className="a"
+                            >{subject}</Link>
+                            {", "}
+                          </Fragment>
+                        )) 
+                      }
+                    </>
+                  ) : (
+                    <>
+                      <h3><HeaderSkeleton /></h3>
+                      <ParagrahSkeleton nLines={5} />
+                    </>
+                  )
                 }
               </section>
             ) 
@@ -116,7 +148,9 @@ const AuthorPage = () => {
               <section className="alternate_names">
                 <h3>Alternate names:</h3>
                 <ul>
-                  { authorData.alternate_names.map((name, i) => <li key={i}>{name}</li>) }
+                  { authorData.alternate_names.map((name, i) => 
+                      <li key={i}>{name}</li>) 
+                  }
                 </ul>
               </section>
             ) 

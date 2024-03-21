@@ -1,21 +1,45 @@
 import "./Skeleton.css"
 
-const Skeleton = ({ classes }) => {
+
+const Skeleton = ({ cls }) => <div className={'skeleton ' + cls}></div>
+
+
+export const TitleSkeleton = () => <Skeleton cls='skeleton-title center' />
+export const SubTitleSkeleton = () => <Skeleton cls='skeleton-subtitle center' />
+export const HeaderSkeleton = () => <Skeleton cls='skeleton-header' />
+
+
+export const TextSkeleton = () => <Skeleton cls='skeleton-text' />
+export const OneLineSkeleton = () => <Skeleton cls='skeleton-line' />
+
+
+export const ParagrahSkeleton = ({ nLines = 7, hasTitle, hasIndent }) => {
+  let cls = ''
+  if (hasTitle) cls += ' hasTitle'
+  if (hasIndent) cls += ' hasIndent'
+
   return (
-    <div className={"skeleton " + classes}></div>
+    <div className={'div' + cls}> 
+      {
+        Array(nLines).fill(0).map((_, i) => (
+          <Skeleton key={i} cls='skeleton-p-line' />
+        ))
+      }
+    </div>
   )
 }
 
-export const HeaderSkeleton = () => <Skeleton classes="skeleton-header ta-c" />
 
-export const TextSkeleton = () => <Skeleton classes="skeleton-text" />
+// type(circle, square), size(small, normal)
+export const PhotoSkeleton = ({ type = 'circle', size= 'small' }) => {
+  let passedClasses = ''
+  if (type) passedClasses += (' ' + type)
+  if (size) passedClasses += (' ' + size)
 
-export const ParagrahSkeleton = ({ nLines }) => 
-  <div className="div"> 
-    {
-      Array(nLines).fill(0).map((_, i) => (
-        <Skeleton key={i} classes="skeleton-paragragh mb-0-3" />
-      ))
-    }
-  </div>
+  return <Skeleton cls={'skeleton-photo' + passedClasses} />
+} 
 
+
+export const CardSkeleton = () => {
+  return <Skeleton cls="skeleton-card" />
+}
