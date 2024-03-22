@@ -2,17 +2,17 @@ import { useEffect, useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 
-import { registerUser } from "../../api/axiosApi";
-import { register } from "../../features/auth/authSlice";
+import { registerUser } from "../../api/axiosApi"
+import { register } from "../../features/auth/authSlice"
 
-import ExclamationMark from "../../components/svgs/ExclamationMark";
-import Check from "../../components/svgs/Check";
-import Eye from "../../components/svgs/Eye";
-import EyeSlash from "../../components/svgs/EyeSlash";
+import ExclamationMark from "../../components/svgs/ExclamationMark"
+import Check from "../../components/svgs/Check"
+import Eye from "../../components/svgs/Eye"
+import EyeSlash from "../../components/svgs/EyeSlash"
 import "./LoginPage.css"
 
-const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
-const UN_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
+const EMAIL_REGEX = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i
+const UN_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/
 const PW_REGEX = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%]).{8,24}$/;
 
 
@@ -216,7 +216,7 @@ const RegisterPage = () => {
             8 to 24 characters.<br />
             Must include uppercase and Lowcase letters, 
             a number and a special characters.<br />
-            Allowed special characters: 
+            Allowed special characters:{' '} 
             <span aria-label="Exclamation mark">!</span>
             <span aria-label="at symbol">@</span>
             <span aria-label="hashtag">#</span>
@@ -262,7 +262,7 @@ const RegisterPage = () => {
         >Register</button>
         
         <p className="fs-0-9">
-          Already have an account?{" "}
+          Already have an account?{' '}
           <Link to="/login" className="underline">Log in</Link>
         </p>
 

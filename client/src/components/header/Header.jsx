@@ -12,7 +12,7 @@ import "./Header.css"
 import { Throttle } from "../../utils/helpers/throttle.js"
 
 const BASE_URL = 'https://openlibrary.org/search.json?'
-const fields = 'title,author_name,key,cover_edition_key'
+const fields = 'title,author_key,author_name,key,cover_edition_key'
 const COVER_URL = (coverID) => `https://covers.openlibrary.org/b/olid/${coverID}-S.jpg`
 
 
@@ -27,7 +27,7 @@ const Header = () => {
 
   // change header appearance on scroll
   useEffect(() => {
-    var header = document.querySelector('header.header');
+    var header = document.querySelector('header.header')
 
     const scrolling = () => {
       if (window.scrollY > 100) header.classList.add('scrolled')
@@ -59,7 +59,7 @@ const Header = () => {
             );
             setSearchResults(data?.docs)
           }
-          catch (e) { console.error(e); }
+          catch (e) { console.error(e) }
           finally { setIsSearching(false) }
         }, 500)
       }
@@ -123,7 +123,7 @@ const Header = () => {
                     
                     <div>
                       <Link to={doc?.key}><h5 className="h5">{doc?.title}</h5></Link>
-                      <Link to={'/author/' + doc?.author_key?.[0]}>
+                      <Link to={'/authors/' + doc?.author_key?.[0]}>
                         <span>{doc?.author_name?.[0]}</span>
                       </Link>
                     </div>

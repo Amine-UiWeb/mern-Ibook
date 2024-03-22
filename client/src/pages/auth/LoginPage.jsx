@@ -2,12 +2,12 @@ import { useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 
-import { loginUser } from "../../api/axiosApi";
-import { login } from "../../features/auth/authSlice";
+import { loginUser } from "../../api/axiosApi"
+import { login } from "../../features/auth/authSlice"
 import usePersist from "../../utils/hooks/usePersist"
 
-import Eye from "../../components/svgs/Eye";
-import EyeSlash from "../../components/svgs/EyeSlash";
+import Eye from "../../components/svgs/Eye"
+import EyeSlash from "../../components/svgs/EyeSlash"
 import "./LoginPage.css"
 
 
@@ -34,7 +34,7 @@ const LoginPage = () => {
 
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
     setValidationError('')
 
     if (!email || !pw) {
@@ -127,7 +127,7 @@ const LoginPage = () => {
 
         
         <p className="fs-0-9 fw-5">
-          Don't have an account yet?{" "}
+          Don't have an account yet?{' '}
           <Link to="/register" className="underline">Register</Link>
         </p>
 

@@ -56,14 +56,14 @@ const useFetchData = ({ end, dep, pathname }) => {
         }
         
 
-        // todo: use this only while developping
+        // todo: use setTimeout only in development
         setTimeout(() => {          
           fetch(url, { cache: 'force-cache' })
             .then(res => res.json())
             .then(data => setData(prev => data))
             .catch(err => setIsFetchError(prev => err?.message || err )) 
             .finally(() => setIsFetchComplete(prev => true))
-        }, 1000);
+        }, 500)
       }
     }, [dep, pathname])
 

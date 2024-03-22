@@ -23,7 +23,7 @@
   z-index: 2;
 }
 
-/* and The Spinny thing */
+/* The Spinny thing */
 .spinner-frame .spinner-bar {
   position: absolute;
   left: 0;
@@ -32,20 +32,22 @@
   height: 50%;
   background: #29d;
   border-radius: 100% 0 0 0;
-  animation: spinny 2s linear infinite;
+  animation: spinny .6s linear infinite;
+  animation-timing-function: ease;
   transform-origin: 100% 100%;
 }
+
 @keyframes spinny {
   0% {
       transform: rotate(0deg);
-      background: #29d;
-  }
-  50% {
+      background: var(--pri-400);
+    }
+    50% {
       transform: rotate(180deg);
-      background: #00427c;
-  }
-  100% {
+      background: var(--pri-600);
+    }
+    100% {
       transform: rotate(360deg);
-      background: #29d;
+      background: var(--pri-400);
   }
 }

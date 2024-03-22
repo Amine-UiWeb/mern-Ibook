@@ -1,15 +1,13 @@
 .carousel-card {
   padding: 5px 0;
   scroll-snap-align: start;
-}
-
-.carousel-card a {
-  border: 0;
-  cursor: pointer;
+  margin: .4rem .8rem;
 }
 
 .carousel-card a img {
-  height: 240px;
-  width: 170px;
-  object-fit: fill;
+  width: 140px;
+  max-width: 200px;
+  object-fit: cover;
+  border-radius: 3px;
+  box-shadow: 0 0 3px 1px rgba(34, 34, 34, 0.25);
 }

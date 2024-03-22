@@ -2,7 +2,10 @@
 * reset 
 */
 
-* {
+*,
+::after,
+::before
+{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
@@ -30,7 +33,7 @@
 
   /* colors */
 
-  /* todo: use nice shades of every color of these */
+  /* todo: replace the original color with nice shades of these colors */
   /* .first-color { background: #feffdf; } */
   /* .second-color { background: #dde0ab; } */
   /* .third-color { background: #97cba9; } */

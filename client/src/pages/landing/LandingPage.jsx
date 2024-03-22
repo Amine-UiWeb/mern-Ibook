@@ -34,7 +34,9 @@ const LandingPage = () => {
     function fetchBooks(url, genre) {
       fetch(url, { method: 'GET', cache: 'force-cache' })
         .then(res => res.json())
-        .then(data => setBooks(prev => ({ ...prev, [genre]: data })))
+        .then(data => {
+          setBooks(prev => ({ ...prev, [genre]: data }))
+        })
         .catch((err) => setFetchError(err?.message || err))
         .finally(() => setIsLoading(false))
     }
@@ -59,14 +61,16 @@ const LandingPage = () => {
         Object.keys(books).map(key => (
           <section key={key} className="carousel-section">
             
-            <div className="carousel-section-header ff-times m-1">
+            <div className="carousel-section-header flex-row ai-c jc-sb p-1">
               <h3 className="h3 fw-4">
                 <Link to={'browse' + books?.[key]?.key} className="cap">
                   <span className="mr-0-5">{key}</span>
                   <ChevronRight />
                 </Link>
               </h3>
-              <span className="fw-7">- {books[key]?.work_count} Books -</span>
+              <span className="fw-7 fs-0-85 underline">
+                - {books[key]?.work_count} Books -
+              </span>
             </div>
 
             <div className="books-carousel">

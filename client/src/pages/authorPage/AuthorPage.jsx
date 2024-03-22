@@ -6,11 +6,11 @@ import useFetchData from "../../utils/hooks/useFetchData.js"
 import SearchPaginList from "../../components/main/searchPagination/searchPaginList.jsx"
 import PhotoSlider from "../../components/main/photoSlider/PhotoSlider.jsx"
 import NoPageData from "../../components/noPageData/NoPageData.jsx"
+import DotsLoader from "../../components/loading/dotsLoader/DotsLoader.jsx"
 import { 
   SubTitleSkeleton, TitleSkeleton, ParagrahSkeleton, HeaderSkeleton, CardSkeleton, TextSkeleton, OneLineSkeleton
 } from "../../components/loading/SkeletonLoaders/Skeleton.jsx"
 import "./AuthorPage.css"
-import DotsLoader from "../../components/loading/dotsLoader/DotsLoader.jsx"
 
 const IDsLinks = {
   amazon: { title: "Amazon ID", url: `https://www.amazon.com/-/e/LINK_ID` },
@@ -77,16 +77,16 @@ const AuthorPage = () => {
 
           { (info?.work_count || !isInfoFetched) && (
               <section className="search-pagin-container">
-                {
-                  info?.work_count ? (
-                    <>
-                      <h2 className="fs-1-3 fw-7">{info.work_count} works</h2>
-                      <SearchPaginList 
-                        authorKey={pathname} 
-                        totalWorks={info?.work_count} 
-                      />
-                    </>
-                  ) : (
+                { info?.work_count && (
+                  <>
+                    <h2 className="fs-1-3 fw-7">{info.work_count} works</h2>
+                    <SearchPaginList 
+                      authorKey={pathname} 
+                      totalWorks={info?.work_count} 
+                    />
+                  </>
+                )} 
+                { (!isInfoFetched ) && (
                     <>
                       <h2><HeaderSkeleton /></h2>
                       <OneLineSkeleton />

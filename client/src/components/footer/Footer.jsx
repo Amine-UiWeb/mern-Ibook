@@ -61,8 +61,8 @@ const Footer = () => {
             </div>
           </div>
           <div className="brand-wrapper flex-row gap-1-5 ai-c mt-1">
-            <p className="fs-0-9 fw-5 uppercase">Make the right decisions that move your business</p>
             <img src={Logo} alt="" />
+            <p className="fs-0-9 fw-5 uppercase">Make the right decisions that move your business</p>
           </div>
         </div>
       
@@ -70,7 +70,7 @@ const Footer = () => {
 
       <div className="copyright p-0-5">
         <span className="fs-0-8">&copy; 2024</span>
-        {" "}
+        {' '}
         <span className="fs-0-8"><Link to="#">iBook-Dock.com, Inc.</Link></span>
       </div>
 

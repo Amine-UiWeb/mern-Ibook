@@ -1,8 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useState, useRef, useCallback } from "react"
 
+import CarouselCard from "./CarouselCard"
 import { ChevronLeft } from "../../svgs/ChevronLeft"
 import { ChevronRight } from "../../svgs/ChevronRight"
-import CarouselCard from "./CarouselCard"
 import "./BooksCarousel.css"
 
 
@@ -14,7 +14,7 @@ const BooksCarousel = ({ books }) => {
 
   
   const dispHideArrows = () => {
-    if (myRef.current.scrollLeft <= 0) setDispLeftArr(false)
+    if (myRef.current.scrollLeft <= 20) setDispLeftArr(false)
     else setDispLeftArr(true)
 
     let scrolled = myRef.current.scrollLeft + myRef.current.clientWidth

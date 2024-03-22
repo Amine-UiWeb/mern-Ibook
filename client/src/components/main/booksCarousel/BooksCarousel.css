@@ -2,8 +2,9 @@
   position: relative;
   display: flex;
   align-items: center;
-  border-block: 5px solid navajowhite;  
+  border-bottom: 5px solid navajowhite;  
   border-radius: .1rem;
+  margin-inline: .3rem;
 }
 
 .carousel-container ::-webkit-scrollbar {
@@ -16,12 +17,14 @@
 /* carousel wrapper */
 .carousel-container .carousel-wrapper {
   display: flex;
+  align-items: center;
+  height: 270px;
   gap: 5px;
   overflow-x: auto;
   white-space: nowrap;
   scroll-behavior: smooth;
-  transition: .5s ease-out;
   scroll-snap-type: inline mandatory;
+  transition: .5s ease-out;
 }
 
 /* carousel arrows */
@@ -45,5 +48,7 @@
 .carousel-container .carousel-arrow:last-child { right: -1rem; }
 
 .carousel-container .carousel-arrow svg { line-height: 0; }
+
+.carousel-section .dotsLoader { height: 210px; width: 140px; }
 
 @media (max-width: 767px) { .carousel-container { margin-inline: .5rem; } }

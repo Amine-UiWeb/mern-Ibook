@@ -1,15 +1,12 @@
 .landing-page :is(a, a:hover, a:visited) { color: initial; }
 
-.carousel-section-header {
-  position: relative;
+.carousel-section { background: var(--wheat-light); }
+
+  .carousel-section-header {
   font-family: Lucida !important;
   width: 340px;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
   line-height: 1.2;
 }
-.carousel-section-header * { font-family: Lucida; }
 .carousel-section-header::before {
   position: absolute;
   content: "";
@@ -26,4 +23,8 @@
 }
 .carousel-section-header:hover svg { color: var(--pri-600); }
 
-.carousel-section .books-carousel { margin-bottom: 2rem; }
+.carousel-section-header > span { color: var(--pri-400); }
+
+.carousel-section .books-carousel { margin-bottom: 3rem; }
+
+.carousel-section .dotsLoader { border-color: var(--sec-200); }

@@ -55,17 +55,21 @@
 
 /* work item */
 
+.works-pagin-item, .skeleton-card {
+  margin: 0 auto 1rem;
+  border-radius: 5px;
+  box-shadow: inset 0 -2px 3px 1px rgba(163, 163, 163, 0.2);
+}
 .works-pagin-item {
   flex-direction: column;
   align-items: center;
   gap: 0 .6rem;
   background-color: var(--light-1);
   color: var(--dark-1);
-  border-radius: 5px;
   padding: 1.2rem .6rem;
-  margin-bottom: 1rem;
-  box-shadow: inset 0 -2px 3px 1px rgba(163, 163, 163, 0.2);
 }
+.author-page .skeleton-card { height: 495px; max-width: 40rem; }
+@media (min-width: 575px) { .author-page .skeleton-card { height: 235px; } }
 
 
 .works-pagin-item .cover { 
@@ -116,8 +120,4 @@
   .works-pagin-item .cover img { width: fit-content; }
   .works-pagin-item .dotsLoader { width: 120px; }  
 
-}
-
-@media (min-width: 991px) {
-  .works-pagin-item { max-width: 100%; } 
 }

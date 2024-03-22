@@ -31,18 +31,21 @@ const useFetchWorksPagin = ({ end, dep, sortBy, page, limit }) => {
         url = `${baseUrl}?${sortQ}${authorQ}&${fieldsQ}&${paginQ}`
       }
 
-      
-      fetch(url, { cache: 'force-cache' })
-        .then(res => res.json())
-        .then(data => {
-          setData(prev => data)
-          setIsFetched(prev => true)
-        })
-        .catch(err => {
-          setFetchError(prev => err?.message || err )
-          setData(prev => null)
-        }) 
-        .finally(() => setIsLoading(prev => false))
+      /* todo: use setTimeout only in development */
+      // setTimeout(() => {
+        fetch(url, { cache: 'force-cache' })
+          .then(res => res.json())
+          .then(data => {
+            setData(prev => data)
+            setIsFetched(prev => true)
+          })
+          .catch(err => {
+            setFetchError(prev => err?.message || err )
+            setData(prev => null)
+          }) 
+          .finally(() => setIsLoading(prev => false))
+      // }, 3000);
+
     }, [dep, sortBy, page])
 
   return { data, isFetched, isLoading, fetchError }

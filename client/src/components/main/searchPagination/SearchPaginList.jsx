@@ -54,13 +54,13 @@ const SearchPaginList = ({ authorKey, totalWorks }) => {
   
   const sortingMenu = (
     <div className="sort-menu ff-lucida">
-      <span><Menu />{" "}Sorted by:{" "}</span>
+      <span><Menu />{' '}Sorted by:{' '}</span>
       <button className="active" onClick={(e) => sort(e, 'most_editions')}>
         Most Editions
-      </button>{" | "}
-      <button onClick={(e) => sort(e, 'old')}>First Published</button>{" | "}
-      <button onClick={(e) => sort(e, 'new')}>Most Recent</button>{" | "}
-      <button onClick={(e) => sort(e, 'rating')}>Top Rated</button>{" | "}
+      </button>{' | '}
+      <button onClick={(e) => sort(e, 'old')}>First Published</button>{' | '}
+      <button onClick={(e) => sort(e, 'new')}>Most Recent</button>{' | '}
+      <button onClick={(e) => sort(e, 'rating')}>Top Rated</button>{' | '}
       <button onClick={(e) => sort(e, 'random')}>Random</button>
     </div>
   )
@@ -119,7 +119,10 @@ const SearchPaginList = ({ authorKey, totalWorks }) => {
   )
 
   return (
-    <div className={"works-list" + (isLoading ? " inactive" : '') }>
+    <div 
+      className={"works-list" + (isLoading ? " inactive" : '')} 
+      style={{ marginBottom: isLoading ? '30rem' : '0' }}
+    >
       {sortingMenu}
       {pagination}
       {worksWrapper}

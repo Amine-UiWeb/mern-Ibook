@@ -126,7 +126,7 @@ const WorkPage = () => {
                       {    
                         subjects?.slice(0, 6)?.map((subject, i) => ( 
                           <span key={i}>
-                            {" "}<Link to="#">{subject}{","}</Link>{" "}
+                            {' '}<Link to="#">{subject}{","}</Link>{' '}
                           </span>)
                         )
                       }...

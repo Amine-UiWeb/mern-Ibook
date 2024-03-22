@@ -119,7 +119,7 @@
   position: absolute;
   inset: 0;
   height: 100%;
-  width: 100%;
+  width: min-content;
   border-radius: 50%;
 }
 .nav .mode-toggler svg.sun { 

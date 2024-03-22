@@ -74,11 +74,11 @@ footer.footer { border-top: 1px solid var(--light-3); }
 
 footer.footer .brand-wrapper p { font-family: 'Segoe UI'; }
 footer.footer .brand-wrapper img {
-  max-width: 10rem;
+  max-width: 7rem;
+  box-shadow: -2px 1px 2px 2px #33333370;
   background: var(--wheat-200);
-  padding: .6rem;
+  padding: .3rem;
   margin-inline: auto;
-  border: 1px solid var(--wheat-600);
   border-radius: 2rem;
 }
 

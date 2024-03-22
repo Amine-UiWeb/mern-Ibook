@@ -41,21 +41,25 @@ const useFetchImage = ({ end, dep, pathname, imageSize }) => {
         url = `https://archive.org/services/img/${dep}`
     
 
-      fetch(url, { cache: "force-cache" })
-        .then(res => res.blob())
-        .then(blob => {
-          let reader = new FileReader()  
-          reader.onload = function () { 
-            setImage(this.result) 
+      // todo: use setTimeout only in development
+      // setTimeout(() => {
+        fetch(url, { cache: "force-cache" })
+          .then(res => res.blob())
+          .then(blob => {
+            let reader = new FileReader()  
+            reader.onload = function () { 
+              setImage(this.result) 
+              setIsImageLoading(prev => false)
+            }
+            reader.readAsDataURL(blob)
+          })
+          .catch(err => {
+            setIsFetchError(true)
+            setImage(prev => null)
             setIsImageLoading(prev => false)
-          }
-          reader.readAsDataURL(blob)
-        })
-        .catch(err => {
-          setIsFetchError(true)
-          setImage(prev => null)
-          setIsImageLoading(prev => false)
-        })
+          })
+      // }, 300000);
+
     }
   }, [dep, pathname])
 

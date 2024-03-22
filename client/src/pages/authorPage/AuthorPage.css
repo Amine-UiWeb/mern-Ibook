@@ -1,7 +1,6 @@
 .author-page {
   position: relative;
-  min-width: 100%;
-  max-width: fit-content;
+  width: 100%;
   margin: 0 auto;
   z-index: 1;
 }
@@ -19,6 +18,8 @@
 .author-page .content-body { 
   position: relative;
   display: block;
+  max-width: 909px;
+  margin: auto;
   min-height: fit-content;
   overflow: hidden;
 }
@@ -76,10 +77,6 @@
 .contentTwothird .skeleton-line:nth-of-type(2) { 
   height: 32px; max-width: 40rem; margin: auto; margin-bottom: .5rem; 
 }
-.contentTwothird .skeleton-card { 
-  height: 235px; max-width: 40rem; margin: 0 auto 1rem; 
-}
-
 
 @media (min-width: 991px) {
   .contentTwothird {
