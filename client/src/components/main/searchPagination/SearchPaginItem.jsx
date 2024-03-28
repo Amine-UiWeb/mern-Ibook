@@ -80,7 +80,6 @@ const SearchPaginItem = ({ work, pathname }) => {
           <span className="d-bl">First published in {first_publish_year}</span>
           
           <span className="editions-details">
-            {/* todo: navigate to, and create work editions page */}
             <Link className="a" to={`${key}/editions`}>{edi}</Link>
             {lang}{prev}
           </span>
@@ -90,8 +89,6 @@ const SearchPaginItem = ({ work, pathname }) => {
         </span>
       
       </div>
-
-      {/* use editions preview also in WorkPage */}
 
     </li>
   )

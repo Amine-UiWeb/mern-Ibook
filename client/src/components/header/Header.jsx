@@ -10,6 +10,7 @@ import { Spinner } from "../loading/spinner/Spinner.jsx"
 import "./Header.css"
 
 import { Throttle } from "../../utils/helpers/throttle.js"
+import findOverflowElem from "../../utils/helpers/findOverflowElem.js"
 
 const BASE_URL = 'https://openlibrary.org/search.json?'
 const fields = 'title,author_key,author_name,key,cover_edition_key'
@@ -38,11 +39,15 @@ const Header = () => {
 
 
   const togglePanel = () => setIsPanelOpen(prev => !prev)
+  const closePanel = () => {
+    document.querySelector('.nav.open .browse')?.classList.remove('display')
+    setIsPanelOpen(prev => false)
+  }
+  
 
+  // search handling
   const onSearchChange = (e) => setSearchText(e.target.value)
 
-
-  // search 
   const memoizedSearch = useCallback(
     (() => {
       let to
@@ -71,14 +76,17 @@ const Header = () => {
 
   const displaySearchResults = (e) => 
     e.target.closest('.search-container').classList.add('active') 
-
   const hideSearchResults = (e) =>
     e.target.closest('.search-container').classList.remove('active')
 
-  // todo: copy imdb website scrollbar appearance and main container styling
-  
+
+  // tip: discover the overflowing elements (use only in development)
+  // useEffect(() => findOverflowElem(), [])
+
+
   return (
     <header className="header">
+      <div className="header-container">
 
         <div 
           className={"panel-toggler" + (isPanelOpen ? " active" : "")}
@@ -97,7 +105,6 @@ const Header = () => {
           
           <span className="search-icon relative">
             {!isSearching ? <MagnifyingGlass /> : <Spinner />}
-            {/* todo: display a spining icon when loading results */}
           </span>
 
           <input
@@ -106,7 +113,6 @@ const Header = () => {
             name="search"
             placeholder="Search by: Title, Author, Genre, ..."
             value={searchText}
-            // todo: display search-results when cursor is visible 
             onChange={onSearchChange}
             onPointerDown={displaySearchResults}
           />
@@ -135,8 +141,9 @@ const Header = () => {
           </div>
         </div>
 
-        <Nav isPanelOpen={isPanelOpen} setIsPanelOpen={setIsPanelOpen} />
+        <Nav isPanelOpen={isPanelOpen} closePanel={closePanel} />
 
+      </div>
     </header>
   )
 }

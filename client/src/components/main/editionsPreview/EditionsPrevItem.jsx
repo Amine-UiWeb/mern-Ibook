@@ -9,7 +9,6 @@ const EditionsPrevItem = ({ iaKey }) => {
   
   
   return (
-    // todo: add link to single edition page
     <Link className="d-in" to="#" >
       <img src={image} />
     </Link>

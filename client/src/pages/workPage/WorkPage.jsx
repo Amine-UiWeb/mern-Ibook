@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 
 import useFetchImage from "../../utils/hooks/useFetchImage.js"
@@ -7,79 +6,96 @@ import useFetchData from "../../utils/hooks/useFetchData.js"
 import BooksCarousel from "../../components/main/booksCarousel/BooksCarousel.jsx"
 import NoPageData from "../../components/noPageData/NoPageData.jsx"
 import DotsLoader from "../../components/loading/dotsLoader/DotsLoader.jsx"
-import { 
-  TitleSkeleton, ParagrahSkeleton, TextSkeleton 
-} from "../../components/loading/SkeletonLoaders/Skeleton.jsx"
+import { TitleSkeleton, ParagrahSkeleton, TextSkeleton } 
+  from "../../components/loading/SkeletonLoaders/Skeleton.jsx"
 import "./WorkPage.css"
+import ReadMore from "../../components/readMore/ReadMore.jsx"
 
 
 const WorkPage = () => {
 
   const { pathname } = useLocation() // pathname is structured as: /works/<workId>
+  const workId = pathname?.split('/works/')?.[1]
 
-  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  // tip: comment temporarily while developping
+  // useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
   
 
-  // Fetch book info (using workId)
-  /* ------------------------------ */
-  let { data: workData, isFetchComplete: workFetcheComplete, isFetchError: isWorkFetchError } 
-    = useFetchData({ end: 'b_workdata', dep: pathname, pathname: pathname })
-  
-  let title = workData?.title
-  let authorKey = workData?.authors?.[0]?.author?.key || workData?.author?.key
-  let subjects = workData?.subjects
+  /* ------------ */
+  // book details 
+  /* ------------ */
+
+  // fetch book info using search endpoint:
+  const { data, isFetchComplete: searchFetchComplete, isFetchError: isSearchFetchError } = 
+    useFetchData({ end: 'b_searchWork', dep: pathname, pathname: pathname }) 
+  const searchData = data?.docs?.[0]
+
+  let title = searchData?.title
+  let authorKey = searchData?.author_key?.[0] || searchData?.author_key
+  let authorName = searchData?.author_name?.[0] 
+  let rating = searchData?.ratings_average?.toFixed(2)
+  let ratingsCount = searchData?.ratings_count
+  let numOfPages = searchData?.number_of_pages_median
+  let publishDate = searchData?.first_publish_year
+  let subjects = searchData?.subject
+  let firstSentence = searchData?.first_sentence
+
+
+  // fetch book dscription using works endpoint:
+  const { data: workData, isFetchComplete: workFetchComplete } 
+    = useFetchData({ end: 'b_work', dep: pathname, pathname: pathname })
   let description = workData?.description?.value || workData?.description
 
 
-  // Fetch book cover, ratings, author name
-  /* -------------------------------------- */
-  let { image: bookCover } = useFetchImage({ 
+  // Fetch book cover:
+  const { image: bookCover } = useFetchImage({ 
     end: 'b_cover', dep: workData, pathname: pathname, imageSize: 'L'
   })
 
   
-  let { data: ratings, isFetchComplete: ratingFetched } = 
-    useFetchData({ end: 'b_rating', dep: workData, pathname: pathname }) 
-  let rating = ratings?.summary?.average?.toFixed(2)
+  /* -------------- */
+  // author details
+  /* -------------- */
 
-
-  // todo: replace with search query using author key (as in author page)
-  // and grab rating, number_of_pages_median, authorname, publishdate from that data instead
-  let { data: bookData, isFetchComplete: bookFetched } = 
-    useFetchData({ end: 'b_bookdata', dep: workData, pathname: pathname }) 
-  let authorName = bookData?.docs?.[0]?.author_name?.[0] 
-  let publishDate = bookData?.docs?.[0]?.first_publish_year
-
-  
-  // Fetch author photo and info
-  /* --------------------------- */
-  let { image: authorPhoto } = useFetchImage({ 
+  // Fetch author photo:
+  const { image: authorPhoto } = useFetchImage({ 
     end: 'b_photo', dep: workData, pathname: pathname, imageSize: 'M'
   })
 
-  // let { data: authorData } 
-  //   = useFetchData({ end: 'b_authordata', dep: bookData, pathname: pathname })
-  // let authorInfo = authorData?.[0]
-  /* todo: display brief author informations */
+  // fetch author info using author key:
+  const { data: authorKeyData } 
+    = useFetchData({ end: 'b_authorByKey', dep: searchData, pathname: pathname })
+  let birthDate = authorKeyData?.birth_date || ''
+  let deathDate = authorKeyData?.death_date || ''
+  let lifeSpan = (birthDate || '') + (deathDate ? (' - ' + deathDate) : '')
+    
+  // fetch additional author info using author name:
+  const { data: authorNameData } 
+    = useFetchData({ end: 'b_authorByName', dep: searchData, pathname: pathname })
+  let authorSearchData = authorNameData?.docs?.[0]
+  let totalWorks = authorSearchData?.work_count
+  let topWork = authorSearchData?.top_work
+  let topSubjects = authorSearchData?.top_subjects
 
+  
+  /* ------------ */
+  // author works
+  /* ------------ */
 
   // Fetch author works 
-  /* ------------------ */
-  let { data: authorWorks } = 
-    useFetchData({ end: 'b_authorworks', dep: bookData, pathname: pathname })
+  const { data: authorWorks } = 
+    useFetchData({ end: 'b_authorworks', dep: searchData, pathname: pathname })
+  // console.log(authorWorks)
+  
 
-
-  // todo: try to implement a deep book content search using search/inside.json endpoint
-
-
-  // fetching workdata failed
-  if (isWorkFetchError && !workData) return <NoPageData error={isWorkFetchError} />
+  // work search by workId failed
+  if (isSearchFetchError) return <NoPageData error={isSearchFetchError} />
   
 
   return (
     <div className="book-details">
       
-      <h3 className="h3 title">{ title || <TitleSkeleton /> }</h3>
+      <h1 className="h1 title ta-c">{ title || <TitleSkeleton /> }</h1>
 
 
       {/* details */}
@@ -91,64 +107,102 @@ const WorkPage = () => {
         
         <div className="info">
 
-          { (!bookFetched || authorName) && (
-              <h5 className="h5 author"> 
-                { !authorName ? <TextSkeleton />  
-                  : <><b>Author: </b><Link to={authorKey}>{authorName}</Link></>
+          { (!searchFetchComplete || authorName) && (
+              <h3 className="h4"> 
+                { !authorName ? <TextSkeleton /> : (
+                    <b>
+                      Author:{' '}
+                      <Link className="fs-1-1" to={`/authors/${authorKey}`}>{authorName}</Link>
+                    </b>
+                  )
                 } 
-              </h5>
+              </h3>
             )
           }
 
-          { (!ratingFetched || rating) && (
-              <h5 className="h5">
-                { !rating ? <TextSkeleton /> : <><b>Rating: </b>{rating}</> }
-              </h5> 
+          { (!searchFetchComplete || rating) && (
+              <h3 className="h4">
+                { !rating ? <TextSkeleton /> : (
+                    <span>
+                      <b>Rating: </b>{rating}<small> ({ratingsCount || '?'})</small>
+                    </span> 
+                  )
+                }
+              </h3> 
+            )
+          }
+
+          { (!searchFetchComplete || numOfPages) && (
+              <h3 className="h4">
+                { !numOfPages ? <TextSkeleton /> : (
+                    <>
+                      <b>N° of pages: </b><span>{numOfPages}</span>
+                    </> 
+                  )
+                }
+              </h3> 
             )
           }
             
-          { (!bookFetched || publishDate) && (
-              <h5 className="h5"> 
+          { (!searchFetchComplete || publishDate) && (
+              <h3 className="h4"> 
                 { !publishDate ? <TextSkeleton />
-                  : <><b>First Published:</b> {publishDate}</>
+                  : <><b>First Published: </b><span>{publishDate}</span></>
                 }
-              </h5>
+              </h3>
             )
           }
   
-          { (!workFetcheComplete || subjects) && (
-              <h5 className="h5 subjects">
+          { (!searchFetchComplete || subjects) && (
+              <h3 className="h4 subjects">
                 {
-                  !workFetcheComplete ? <ParagrahSkeleton nLines={3} />
+                  !searchFetchComplete ? <ParagrahSkeleton nLines={3} />
                   : subjects.length > 0 ? (
                     <>
                       <b>Subjects:{' '}</b>   
                       {    
-                        subjects?.slice(0, 6)?.map((subject, i) => ( 
+                        subjects?.slice(0, 16)?.map((subject, i) => ( 
                           <span key={i}>
-                            {' '}<Link to="#">{subject}{","}</Link>{' '}
+                            <Link to="#">{subject}</Link>
+                            {"; "}
                           </span>)
                         )
-                      }...
+                      }..
                     </>
                   ) 
                     : null
                 }
-                </h5>
+                </h3>
+            )
+          }
+
+          { (!workFetchComplete || firstSentence) && (
+              <h3 className="h4">
+                {
+                  !workFetchComplete ? <ParagrahSkeleton nLines={3} />
+                  : firstSentence.length > 0 ? (
+                    <>
+                      <b>First sentence:{' '}</b>
+                      <ReadMore text={firstSentence} />
+                    </>
+                  ) 
+                    : null
+                }
+                </h3>
             )
           }
 
         </div>
 
-        { (!workFetcheComplete || description) && (
+        { (!workFetchComplete || description) && (
             <div className="description">
               {
-                !workFetcheComplete ? <ParagrahSkeleton hasTitle={true} /> : 
+                !workFetchComplete ? <ParagrahSkeleton hasTitle={true} /> : 
                   <>
                     <b>Description: </b>
                     <div>
                       {description?.split('\n').map((par, i) => 
-                        <p key={i} className="fs-0-85 mt-0-5">{par}</p>
+                        <p key={i} className="mt-0-5">{par}</p>
                       )}
                     </div>
                   </>
@@ -161,15 +215,60 @@ const WorkPage = () => {
       
 
       {/* author */}
-      { authorName && (
+      { authorSearchData && (
           <section className="author-brief">
-            <h3 className="h5 mb-1">Brief overview on the author:</h3>
             
-            <div className="author-flex">
-              
-              <div className="profile-wrapper">
-                <img src={authorPhoto} alt="author profile" />
-                <h5><Link to={authorKey}>{authorName}</Link></h5>
+            <h2 className="h4 gray-800">Author overview: </h2>
+            
+            <div className="flex-row ai-fs gap-2 flex-wrap mt-1">
+
+              <div className="min-w-fit ta-c">
+                <Link to={`/authors/${authorKey}`}>
+                  <img className="m-auto mb-1" src={authorPhoto} alt="author-photo" />
+                </Link>
+                <h3 className="h6 fs-1-1 mb-0-25" title="View all details">
+                  <Link to={`/authors/${authorKey}`}>{authorName}</Link>
+                </h3>
+                { lifeSpan.length > 0 && 
+                    <span className="fs-0-75 fw-4 d-bl">({lifeSpan})</span>
+                }
+              </div>
+
+              <div className="content"> 
+                
+                { totalWorks && (
+                    <div>
+                      <h3 className="h4">Total works: </h3>
+                      <span> {totalWorks}</span>
+                    </div>
+                  )
+                }
+
+                { topWork && (
+                    <div>
+                      <h3 className="h4">Most popular work: </h3>
+                      <span>{topWork}</span>
+                    </div>
+                  )
+                }
+                
+                { topSubjects?.length > 0 && (
+                    <div className="subjects">
+                      <h3 className="h4 ">Top subjects: </h3>
+                      { topSubjects?.filter(subj => (
+                            !subj.includes('collectionid'))
+                          )
+                          .map((subj, i) => (
+                            <span key={i}>
+                              <Link key={i}>{subj}</Link>
+                              {'; '}
+                            </span>
+                          ))
+                      }
+                    </div>
+                  )
+                }
+
               </div>
 
             </div>
@@ -185,13 +284,13 @@ const WorkPage = () => {
 
 
       {/* other works by the author */}
-      { (!workFetcheComplete || authorWorks?.docs?.length > 0) && (
+      { (!workFetchComplete || authorWorks?.docs?.length > 0) && (
           authorWorks?.docs?.length > 0 && 
-          <section className="author-books">
-            <h4 className="h4 mb-1">Other works by the author:</h4>
+          <section className="author-works">
+            <h2 className="h3 mb-0-5">Other works by the author:</h2>
 
-            <BooksCarousel books={authorWorks?.docs.splice(0, 20)} />
-          </section>
+            <BooksCarousel books={authorWorks?.docs} />
+          </section> 
         )
       }
 

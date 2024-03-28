@@ -24,25 +24,20 @@
   overflow: hidden;
 }
 
+.content-body h2 { 
+  color: var(--gray-600); 
+  font-size: 1.25rem;
+  font-weight: 700;
+  font-family: 'Lucida Grande', Geneva, Verdana, sans-serif; 
+}
+
 
 /* twothird */
-
-.contentTwothird h2 { 
-  color: var(--gray-600); 
-  font-size: 1.3rem; 
-  font-weight: 700;
-}
 
 .contentTwothird .description p { text-indent: .9rem; margin-bottom: .75rem; }
 
 
 /* onethird */
-
-.contentOnethird h3 { 
-  font-family: 'Lucida Grande', Geneva, Verdana, sans-serif; 
-  font-weight: 600;
-  color: #666;
-}
 
 .contentOnethird img {
   height: auto;

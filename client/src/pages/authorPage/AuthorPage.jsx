@@ -1,4 +1,4 @@
-import { Fragment } from "react"
+import { Fragment, useEffect } from "react"
 import { Link, useLocation } from "react-router-dom"
 
 import useFetchData from "../../utils/hooks/useFetchData.js"
@@ -27,8 +27,12 @@ const AuthorPage = () => {
 
   const { pathname } = useLocation()
 
+  // tip: comment temporarily while developping
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+
+  
   const { data: authorData, isFetchComplete, isFetchError } 
-    = useFetchData({ end: 'a_authordata', dep: pathname, pathname })
+    = useFetchData({ end: 'a_authorByKey', dep: pathname, pathname })
 
   let birth_date = authorData?.birth_date || ''
   let death_date = authorData?.death_date
@@ -40,7 +44,7 @@ const AuthorPage = () => {
   
 
   const { data: authorInfo, isFetchComplete: isInfoFetched, isFetchError: isInfoError } 
-    = useFetchData({ end: 'a_authorinfo', dep: authorData, pathname })
+    = useFetchData({ end: 'a_authorByName', dep: authorData, pathname })
   const info = authorInfo?.docs?.[0]
   
 
@@ -53,7 +57,7 @@ const AuthorPage = () => {
 
       { (authorData?.name || !isFetchComplete) && (
           <div className="content-head ta-c">
-            <h1 className="fw-8 h2 mb-1">
+            <h1 className="h1 mb-1">
               {authorData?.name || <TitleSkeleton />}
             </h1>
             <h4 className="fs-1 fw-4">
@@ -79,7 +83,7 @@ const AuthorPage = () => {
               <section className="search-pagin-container">
                 { info?.work_count && (
                   <>
-                    <h2 className="fs-1-3 fw-7">{info.work_count} works</h2>
+                    <h2 className="h2 fs-1-3 fw-7">{info.work_count} works</h2>
                     <SearchPaginList 
                       authorKey={pathname} 
                       totalWorks={info?.work_count} 
@@ -121,7 +125,7 @@ const AuthorPage = () => {
               <section className="top_subjects">
                 { info?.top_subjects?.length > 0 ? (
                     <>
-                      <h3>Top subjects:</h3>
+                      <h2>Top subjects:</h2>
                       { info.top_subjects.map((subject, i) => (
                           <Fragment key={i}>
                             <Link 
@@ -135,7 +139,7 @@ const AuthorPage = () => {
                     </>
                   ) : (
                     <>
-                      <h3><HeaderSkeleton /></h3>
+                      <h2><HeaderSkeleton /></h2>
                       <ParagrahSkeleton nLines={5} />
                     </>
                   )
@@ -146,7 +150,7 @@ const AuthorPage = () => {
 
           { (authorData?.alternate_names?.length > 0) && (
               <section className="alternate_names">
-                <h3>Alternate names:</h3>
+                <h2>Alternate names:</h2>
                 <ul>
                   { authorData.alternate_names.map((name, i) => 
                       <li key={i}>{name}</li>) 
@@ -158,7 +162,7 @@ const AuthorPage = () => {
 
           { (authorData?.links?.length > 0) && (
               <section className="links">
-                <h3>Links:</h3>
+                <h2>Links:</h2>
                 <ul>
                   { authorData.links.map((link, i) => 
                       <li key={i}>
@@ -172,7 +176,7 @@ const AuthorPage = () => {
 
           { (typeof ids == 'object' && Object.keys(ids).length > 0) && (
               <section className="id_numbers">
-                <h3>ID Numbers:</h3>
+                <h2>ID Numbers:</h2>
                 <ul>
                   { Object.keys(ids).map((key, i) => (
                       <li key={i}>

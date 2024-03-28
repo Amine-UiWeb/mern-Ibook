@@ -1,6 +1,6 @@
 .nav {
   position: relative;
-  gap: 1rem;
+  gap: .8rem;
   padding: .4rem .6rem;
   background: var(--light-3);
   box-shadow: 0 0 2px 1px var(--wheat-400);
@@ -8,66 +8,87 @@
 }
 
 
-/* browse button and menu */
+/* browse mega menu */
 
-.nav :is(.browse-wrapper, .subjects-wrapper) { position: relative; }
+.display { position: relative; }
 
-.nav .browse-wrapper button { 
-  padding: .4rem;
-  border: none; 
-  border-radius: .4rem !important;
-}
-.nav .browse-wrapper:hover button {
-  background: var(--wheat-600);
-  color: var(--pri-light-1);
-  border-radius: .4rem .4rem 0 0 !important;
-}
-
-.nav .browse-wrapper ul {
+.overlay {
   position: absolute;
-  top: 100%;
   display: none;
-  opacity: 0;
-  padding: .4rem;
-  border: 1px solid var(--wheat-400);
-  transition: all .1s ease-in-out;  
-  transition-delay: 1s;
+  /* background: var(--crimson-light-2); */
+  top: -1000px;
+  left: -1000px;
+  width: 0;
+  width: 0;
+  pointer-events: stroke;
+  z-index: -10;
+}
+.display .overlay { 
+  display: block;
+  height: 2000px;
+  width: 2000px;
 }
 
-.nav ul.browse-ul {
-  left: 0;
+:is(.dropdown-wrapper, .sub-dropdown-wrapper) { position: relative; }
+
+.nav .browse button { 
+  color: rgb(var(--purple));
+  border: none;
+  border-radius: 1rem;
+}
+.nav .browse:hover button { background: var(--light-1); }
+.nav .browse.display button {
+  background: var(--purple-200);
+  color: var(--pri-light-1);
+  border-radius: .2rem .2rem 0 0; 
+}
+
+:is(.dropdown-ul, .sub-dropdown-ul) {
+  position: absolute;
+  visibility: hidden;
+  top: 100%;
+  height: 0;
   background: var(--pri-light-1);
+  padding: 0 .4rem;
+  border: 1px solid var(--wheat-400) !important;
   z-index: 10;
 }
-.nav ul.subjects-ul {
-  max-height: 300px;
-  left: 70%;
-  background: var(--pri-light-1);
-  overflow-y: auto;
+.dropdown-ul { left: 0; }
+.sub-dropdown-ul { 
+  left: 50%; 
+  overflow-y: auto; 
+  transition-delay: .2s; 
+  transition: visibility 0s 0s, height cubic-bezier(0.46, 0.03, 0.52, 0.96) .3s;
+}
+.dropdown-wrapper.display 
+  :where(.dropdown-ul, .sub-dropdown-wrapper:hover > .sub-dropdown-ul) { 
+  height: 240px;
+  visibility: visible;
+  padding: .4rem;
+  transition-delay: 0s;
   z-index: 20;
 }
-.nav .browse-wrapper:hover ul.browse-ul, .nav .subjects-wrapper:hover ul.subjects-ul { 
-  display: block;
-  opacity: 1; 
-}
+.dropdown-wrapper.display > .dropdown-ul { height: fit-content; }
 
-.nav .browse-ul > li { border-left: 3px solid var(--gray-200); }
-.nav .subjects-ul li { border-bottom: 1px solid var(--gray-200); }
-.nav .subjects-wrapper svg {
+
+.nav .browse-ul > li { margin-block: .25rem; }
+.nav .browse-ul > li { position: relative; padding-inline: .5rem; }
+.nav .sub-dropdown-ul > li:not(:last-child) { border-bottom: 1px solid snow; }
+
+.nav .sub-dropdown-wrapper svg {
   position: absolute;
   top: 50%;
   right: .5rem;
-  height: .8rem;
-  width: .8rem;
+  height: .65rem;
+  width: .65rem;
   fill: var(--wheat-400);
   transform: translateY(-50%);
   transition: transform .1s;
 }
-.nav .subjects-wrapper:hover svg { transform: translateY(-50%) rotateZ(90deg); }
-
-.nav ul.browse-ul li:not(:last-child) { margin-bottom: .5rem; }
-
-.subjects-wrapper:hover .subjects-ul { display: block; }
+.nav .sub-dropdown-wrapper:hover > svg { 
+  transition-duration: .2s;
+  transform: translateY(-50%) rotateZ(90deg); 
+}
 
 
 /* nav links */
@@ -75,15 +96,15 @@
 .nav .nav-links ul {
   display: flex;
   align-items: center;
-  gap: .2rem;
+  gap: .4rem;
 }
 
-.nav-links li, .browse-wrapper button{
+.nav-links li, .dropdown-wrapper button{
   background: #eee;
   border-radius: .2rem;
   transition: .05s ease-in;
 }
-.nav :is(.nav-links, .browse-wrapper) li:is(:hover, :has(> a.active)) {
+.nav :is(.nav-links, .dropdown-wrapper) li:is(:hover, :has(> a.active)) {
   background: #96bac99c;
   color: #fff;
   cursor: pointer;
@@ -114,6 +135,7 @@
   position: absolute;
   inset: 0;
   opacity: 0;
+  cursor: pointer;
 }
 .nav .mode-toggler > svg {
   position: absolute;
@@ -134,6 +156,7 @@
 
 
 /* media queries */
+@media (max-width: 300px) {}
 
 @media (max-width: 767px) {
   .nav { 
@@ -142,7 +165,7 @@
     height: 0;
     width: 100%;
     display: flex;
-    gap: 2rem;
+    /* gap: 2rem; */
     background: var(--light-3);
     padding: 0px;
     border-radius: 0;

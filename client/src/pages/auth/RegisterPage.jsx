@@ -99,8 +99,9 @@ const RegisterPage = () => {
           }
         }
         catch (err) {
-          setValidationError(err.Message)
+          setValidationError(err.message)
           errorRef.current.focus()
+          console.log(err)
         }
       })()
     }

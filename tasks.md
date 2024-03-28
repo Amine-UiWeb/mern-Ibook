@@ -16,16 +16,16 @@
 
 ## add a toggling navigation menu
 
-- [x] Add a __nav panel__ toggler.
-- [x] Implement __nav panel__ toggling.
+- [x] Add a __nav__ toggler.
+- [x] Implement __nav__ toggling.
 
-- [x] Add a dropdown menu in the __nav panel__ to browse books by different choices.
+- [x] Add a dropdown menu in the __nav__ to browse books by different choices.
 - [x] Add a link to browse the __user collection__ (only if authenticated).
 
-- [x] Add __dark/light themes__ toggler button in __nav panel__.
+- [x] Add __dark/light themes__ toggler button in __nav__.
 - [ ] Apply __theme__ change.
 
-## create main pages with skeleton loading
+## create main pages with skeleton loading applied
 
 - [x] Create __WorkPage__ and.
 - [x] Create __AuthorPage__ page.

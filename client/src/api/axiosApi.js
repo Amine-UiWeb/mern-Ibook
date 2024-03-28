@@ -4,12 +4,6 @@ const baseApi = axios.create({ baseURL: 'http://localhost:5000' })
 baseApi.defaults.withCredentials = true
 
 
-// todo: set interceptors for the apiWithInterceptors
-// request interceptor: set auth header
-// response interceptor: refresh the aT uppon expiring, then retry the request 
-// const apiWithInterceptors = axios.interceptors
-
-
 export const registerUser = async (newUser) => {
   try {
     const res = await baseApi.post('/auth/register', newUser, {
@@ -17,7 +11,7 @@ export const registerUser = async (newUser) => {
     })
     return res.data
   }
-  catch (err) { return err }
+  catch (err) { throw Error(err) }
 }
 
 

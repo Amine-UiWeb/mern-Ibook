@@ -10,7 +10,7 @@ import { SUBJECTS } from "../../utils/constants"
 import "./Nav.css"
 
 
-const Nav = ({ isPanelOpen, setIsPanelOpen }) => {
+const Nav = ({ isPanelOpen, closePanel }) => {
 
   const token = useSelector(selectToken)
 
@@ -18,8 +18,11 @@ const Nav = ({ isPanelOpen, setIsPanelOpen }) => {
 
   useEffect(() => {
     // toggle prefers-theme to: light or dark
-    /* todo: when implementing theme toggling, keep header and footer color static */
   }, [theme])
+
+  useEffect(() => {
+    document.querySelector('.overlay').addEventListener('click', toggleBrowse)
+  }, [])
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light')
@@ -27,20 +30,51 @@ const Nav = ({ isPanelOpen, setIsPanelOpen }) => {
   }
 
 
+  const toggleBrowse = (e) => {
+    let browseCls = e.target.closest('.browse').classList
+
+    if (e.target.className == 'overlay') browseCls.remove('display')
+
+    else if (e.target.nodeName == 'BUTTON') 
+      setTimeout(() => { browseCls.toggle('display') }, 100);
+    
+    else if (e.target.nodeName == 'A')
+      if (e.target.getAttribute('data-dropdown-opener')) e.preventDefault()
+      else setTimeout(() => { browseCls.remove('display') }, 100);
+  }
+
+
   return (
     <nav 
-      onMouseLeave={() => setIsPanelOpen(false)} 
+      onMouseLeave={closePanel} 
       className={'nav flex-row ai-c jc-c' + (isPanelOpen ? ' open' : '')}
     >
       
-      <div className="browse-wrapper">
-        <button className="fw-6 fs-0-9">Browse</button>
-        <ul className="browse-ul fw-5 fs-0-9">
+      <div className="dropdown-wrapper browse" onClick={toggleBrowse}>
+        <button className="fw-6 fs-0-85 fw-5 uppercase p-0-5">Browse</button>
+        <div className="overlay"></div>
 
-          <li className="subjects-wrapper scrollbar-1">
-            <a href="#">Subjects</a>
+        <ul className="dropdown-ul browse-ul fw-5 fs-0-9">
+
+          <li className="sub-dropdown-wrapper subjects scrollbar-1">
+            <a href="#" data-dropdown-opener>Subjects</a>
             <ChevronRight />
-            <ul className="subjects-ul">
+            <ul className="sub-dropdown-ul subjects-ul">
+              { Object.keys(SUBJECTS)?.map((subject, i) => (
+                  <li key={i}>
+                    <NavLink to={`browse/subjects/${SUBJECTS[subject]}`}>
+                      {subject}
+                    </NavLink>
+                  </li>
+                ))
+              }
+            </ul>
+          </li> 
+          
+          <li className="sub-dropdown-wrapper awards scrollbar-1">
+            <a href="#" data-dropdown-opener>Awards</a>
+            <ChevronRight />
+            <ul className="sub-dropdown-ul awards-ul">
               { Object.keys(SUBJECTS)?.map((subject, i) => (
                   <li key={i}>
                     <NavLink to={`browse/subjects/${SUBJECTS[subject]}`}>
@@ -51,8 +85,7 @@ const Nav = ({ isPanelOpen, setIsPanelOpen }) => {
               }
             </ul>
           </li>
-          
-          <li><NavLink to="browse/awards">Awards</NavLink></li>
+
           <li><NavLink to="browse/recommendations">Recommendations</NavLink></li>
           <li><NavLink to="browse/popular">Most Popular</NavLink></li>
           <li><NavLink to="browse/explore">Explore</NavLink></li>
@@ -64,7 +97,7 @@ const Nav = ({ isPanelOpen, setIsPanelOpen }) => {
         <ul>
           <li><NavLink to='/'>Home</NavLink></li>
           { token ? 
-              <li><NavLink to='/user/collection'>My Collection</NavLink></li>
+              <li><NavLink to='/user/collection'>Collection</NavLink></li>
               : (
                 <>
                   <li><NavLink to='/login'>LogIn</NavLink></li>

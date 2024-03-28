@@ -62,7 +62,9 @@ const Footer = () => {
           </div>
           <div className="brand-wrapper flex-row gap-1-5 ai-c mt-1">
             <img src={Logo} alt="" />
-            <p className="fs-0-9 fw-5 uppercase">Make the right decisions that move your business</p>
+            <p className="fs-0-9 fw-5 uppercase">
+              Browse your favorite books and add them to your personal collection
+            </p>
           </div>
         </div>
       

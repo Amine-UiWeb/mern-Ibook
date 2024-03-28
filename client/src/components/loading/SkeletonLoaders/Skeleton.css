@@ -32,7 +32,7 @@
 .skeleton-p-line {
   height: .9rem;
   width: 100%;
-  margin-bottom: .45rem;
+  margin-bottom: .35rem;
 }
 .skeleton-p-line:last-child { width: calc(90%); margin-bottom: 0; }
 .hasTitle > .skeleton-p-line:first-child { height: 1.5rem; width: 8rem; } 

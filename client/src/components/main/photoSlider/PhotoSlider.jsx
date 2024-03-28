@@ -26,7 +26,6 @@ const PhotoSlider = ({ pathname, ids, height }) => {
 
   return (
     <div className="photo-slider slider-container relative" style={{ height }}>
-      {/* todo: use < > characters as arrows for this component and for bookscarousel component */}
 
       <button 
         className="slider-arrow slider-prev-arrow" 

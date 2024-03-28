@@ -1,4 +1,4 @@
-import { useRef, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 
@@ -21,8 +21,12 @@ const LoginPage = () => {
   const [pw, setPw] = useState('Password123%')
   const [isPwVisible, setIsPwVisible] = useState(false)
   const [validationError, setValidationError] = useState('')
+
+  const emailRef = useRef()
   const errorRef = useRef()
 
+
+  useEffect(() => emailRef.current.focus(), [])
 
   const onEmailChange = (value) => setEmail(prev => value)
   const onPasswordChange = (value) => setPw(prev => value)
@@ -70,8 +74,6 @@ const LoginPage = () => {
 
       <form className="login-form">
 
-        {/* todo: prevent label click from puting focus on the related input */}
-
         <div 
           ref={errorRef}
           className={validationError ? "error" : "offScreen"}
@@ -84,6 +86,7 @@ const LoginPage = () => {
         <label htmlFor="email">Email</label>
         <input 
           type="text" 
+          ref={emailRef}
           id="email"
           name="email"
           value={email}
@@ -116,7 +119,9 @@ const LoginPage = () => {
             checked={persist || false}
             onChange={togglePersist}
           />
-          <label htmlFor="persist" className="d-in ml-0-5 fs-0-85">Remember Me</label>
+          <label htmlFor="persist" className="d-in fs-0-85 gray-600 ml-0-5">
+            Remember Me
+          </label>
         </span>
 
         <button 

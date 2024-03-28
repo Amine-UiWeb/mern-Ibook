@@ -24,8 +24,9 @@ const useFetchImage = ({ end, dep, pathname, imageSize }) => {
       }
 
       // Work page
-      else if (end == 'b_cover')
+      else if (end == 'b_cover') {
         url = `${BASE_URL}/b/id/${dep?.covers?.[0]}-${imageSize}.jpg`
+      }
     
       else if (end == 'b_photo') {
         let authorKey = dep?.authors?.[0]?.author?.key || dep?.author?.key
@@ -34,14 +35,16 @@ const useFetchImage = ({ end, dep, pathname, imageSize }) => {
       } 
 
       // Author page
-      else if (end == 'a_photo' || end == 'a_cover')
+      else if (end == 'a_photo' || end == 'a_cover') {
         url = `${BASE_URL}/b/id/${dep}-${imageSize}.jpg`
+      }
 
-      else if (end == 'edition_cover')
+      else if (end == 'edition_cover') {
         url = `https://archive.org/services/img/${dep}`
+      }
     
 
-      // todo: use setTimeout only in development
+      // use setTimeout only in development
       // setTimeout(() => {
         fetch(url, { cache: "force-cache" })
           .then(res => res.blob())

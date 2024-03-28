@@ -1,53 +1,45 @@
 .login {
-  max-width: 26rem;
-  padding: 1rem;
+  max-width: 24rem;
   width: 100%;
   min-width: 16rem;
+  padding: .5rem 1.5rem;
   margin: 3rem auto;
-  border: 1px solid var(--pri-200);
-  box-shadow: 0 0 3px 2px #bbb;
   border-radius: .6rem;
+  box-shadow: inset 0 0 2px 2px #bbb;
 }
 
 .login h3 {
-  text-align: center;
-  font-size: 1.8rem;
+  color: var(--sec-200);
+  font-size: 2rem;
+  font-weight: 700;
   line-height: 1.4;
-  margin-bottom: 1.5rem;
-  font-weight: 400;
-  color: var(--sec-400);
-  text-decoration: wavy underline var(--sec-200) 1px;
+  text-align: center;
+  margin-block: .4rem 1rem;
 }
 
 
 /* label */
 
+.login-form label { margin-top: .7rem; }
+
 .login-form label svg { 
   display: inline-block; 
-  stroke: var(--sec-400);
-  stroke-width: 1;
+  color: var(--sec-200);
 }
 .login-form :is(label > *, label span > *) { vertical-align: middle; }
-.login-form label span svg { 
-  display: inline-block; 
-  stroke: var(--sec-400);
-  stroke-width: 1;
-}
 
 .login-form label span.eye { 
   width: 4.5rem;
   padding-inline: .4rem;
 }
-.login-form label span.eye:last-child { font-size: .8rem; color: var(--gray-800); }
-.login-form label span.eye svg {
-  stroke: none;
-  fill: var(--gray-800);
-}
+.login-form label span.eye:last-child { font-size: .8rem; }
+.login-form label span.eye svg { color: var(--gray-600); }
 
 
 /* input */
 
 .login-form input {
+  padding: .4rem 1rem;
   color: var(--pri-400);
   border-radius: 1rem;
   font-weight: 400;
@@ -89,6 +81,7 @@
 .login-form > div.error {
   background: var(--crimson-200);
   color: white;
+  font-size: .8rem;
   font-weight: 600;
   opacity: 1;
 }

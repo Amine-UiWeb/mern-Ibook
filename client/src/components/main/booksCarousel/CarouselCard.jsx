@@ -1,5 +1,4 @@
-import { useEffect, useState } from "react"
-import { useNavigate, redirectDocument, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 import DotsLoader from "../../loading/dotsLoader/DotsLoader"
 import "./CarouselCard.css"
@@ -12,7 +11,6 @@ const CarouselCard = ({ book }) => {
     end: 'carousel_cover', dep: book, pathname: null, imageSize: 'L' 
   })
 
-  // todo: display bookmark icon that adds a book to favorits (if user logged in)
   
   return (
     <div className="carousel-card">

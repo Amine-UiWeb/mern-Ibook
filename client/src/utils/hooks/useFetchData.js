@@ -9,54 +9,60 @@ const useFetchData = ({ end, dep, pathname }) => {
   const [isFetchError, setIsFetchError] = useState(false)
 
     useEffect(() => {
-      // when workdata is still fetching 
+      // when workdata is still fetching
       if (!dep) setIsFetchComplete(false)
       
       else {
         setIsLoading(true)
+        setIsFetchError(false)
 
         let url
 
-        // Work page
+        /* Work page */
 
-        // replace with search query (similar to search works in author page)
-        if (end == 'b_workdata') url = `https://openlibrary.org${pathname}.json`
+        if (end == 'b_work') {
+          url = `https://openlibrary.org${pathname}.json`
+        }
 
-        else if (end == 'b_rating') {
-          const olWork = pathname?.split('/works/')[1]
-          url = `https://openlibrary.org/works/${olWork}/ratings.json`
+        else if (end == 'b_searchWork') {
+          let fields = 
+            'fields=title,author_name,first_publish_year,number_of_pages_median,' + 'first_sentence,ratings_average,ratings_count,author_key,subject'
+          url = `https://openlibrary.org/search.json?q=${dep}&${fields}&limit=1`
         } 
 
-        else if (end == 'b_bookdata') {
-          const searchURL = 'https://openlibrary.org/search.json'
-          const encodedTitle = encodeURIComponent(dep?.title)
-          const urlParams = `?q=${encodedTitle}&fields=author_name,first_publish_year&limit=1`
-          url = searchURL + urlParams
-        } 
+        else if (end == 'b_authorByKey') {
+          let authorKey = dep?.author_key?.[0] || dep?.author_key
+          url = `https://openlibrary.org/authors/${authorKey}.json`
+        }
 
-        else if (end == 'b_authordata') {
-          const authorKey = dep?.authors?.[0]?.author?.key || dep?.author?.key
-          url = `https://openlibrary.org${authorKey}.json`
+        else if (end == 'b_authorByName') {
+          let authorName = dep?.author_name?.[0]
+          let uriEncAuthor = encodeURIComponent(authorName)
+          url = `https://openlibrary.org/search/authors.json?q=${uriEncAuthor}&limit=1`
         }
 
         else if (end == 'b_authorworks') {
-          const authorName = dep?.docs?.[0]?.author_name?.[0]
-          const uriAuthor = encodeURIComponent(authorName)
-          url = `https://openlibrary.org/search.json?author=${uriAuthor}`
+          let BASE_URL = 'https://openlibrary.org/search.json'
+          let fields = `fields=key,cover_i,cover_id`
+          let authorName = dep?.author_name?.[0]
+          let uriEncAuthor = encodeURIComponent(authorName)
+          url = `${BASE_URL}?author=${uriEncAuthor}&${fields}&limit=20`
         } 
 
 
-        // Author page
+        /* Author page */
 
-        else if (end == 'a_authordata') url = `https://openlibrary.org${dep}.json`
+        else if (end == 'a_authorByKey') {
+          url = `https://openlibrary.org${dep}.json`
+        }
 
-        else if (end == 'a_authorinfo') {
-          const encodedAuthor = encodeURIComponent(dep?.name)
-          url = `https://openlibrary.org/search/authors.json?q=${encodedAuthor}&limit=1`
+        else if (end == 'a_authorByName') {
+          let uriEncAuthor = encodeURIComponent(dep?.name)
+          url = `https://openlibrary.org/search/authors.json?q=${uriEncAuthor}&limit=1`
         }
         
 
-        // todo: use setTimeout only in development
+        // use setTimeout only in development
         setTimeout(() => {          
           fetch(url, { cache: 'force-cache' })
             .then(res => res.json())
@@ -64,6 +70,7 @@ const useFetchData = ({ end, dep, pathname }) => {
             .catch(err => setIsFetchError(prev => err?.message || err )) 
             .finally(() => setIsFetchComplete(prev => true))
         }, 500)
+        
       }
     }, [dep, pathname])
 

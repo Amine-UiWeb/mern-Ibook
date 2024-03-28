@@ -43,9 +43,9 @@
   z-index: 5;
 }
 .carousel-container:hover .carousel-arrow { opacity: 1; }
-.carousel-container:hover .carousel-arrow:hover { color: #f5c518; }
-.carousel-container .carousel-arrow:first-child { left: -1rem; }
-.carousel-container .carousel-arrow:last-child { right: -1rem; }
+.carousel-arrow:hover { color: #f5c518; }
+.carousel-arrow:first-child { left: -1rem; }
+.carousel-arrow:last-child { right: -1rem; }
 
 .carousel-container .carousel-arrow svg { line-height: 0; }
 

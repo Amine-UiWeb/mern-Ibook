@@ -52,7 +52,6 @@ const LandingPage = () => {
   return (
     <div className="landing-page">
 
-      {/* todo: add a landing banner (contains image and description) */}
       <div className="landing-banner">
         <img src="" alt="" />
       </div>

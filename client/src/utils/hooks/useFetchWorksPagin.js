@@ -31,7 +31,7 @@ const useFetchWorksPagin = ({ end, dep, sortBy, page, limit }) => {
         url = `${baseUrl}?${sortQ}${authorQ}&${fieldsQ}&${paginQ}`
       }
 
-      /* todo: use setTimeout only in development */
+      /* use setTimeout only in development */
       // setTimeout(() => {
         fetch(url, { cache: 'force-cache' })
           .then(res => res.json())

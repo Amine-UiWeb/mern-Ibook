@@ -12,7 +12,7 @@ const NoPageData = ({ error }) => {
     <div className="no-page-data">
       <p>
         <b className="fs-1-1 fw-5">Oppsss...</b> 
-        there have been a problem loading data from the server.
+        there has been a problem loading data from the server.
       </p>
 
       {error && (

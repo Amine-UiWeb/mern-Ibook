@@ -7,7 +7,6 @@ import { Menu } from "../../svgs/Menu"
 import { NoSectionData } from "../../npSectionData/NoSectionData"
 import "./SearchPaginList.css"
 
-
 const toggleActive = (target, parent, childs) => {
   target.closest(parent).querySelectorAll(childs)
     .forEach(child => child.classList.remove('active'))
@@ -17,8 +16,6 @@ const toggleActive = (target, parent, childs) => {
 
 const SearchPaginList = ({ authorKey, totalWorks }) => {
   
-  // todo (lastly): disable all sorting and pagination buttons on fetchLoading
-
   // limit: the the number of returned works in each batch (default: 20)
   // page: the starting point to fetch a batch of works (default: 1)
 
@@ -32,7 +29,7 @@ const SearchPaginList = ({ authorKey, totalWorks }) => {
   const works = data?.docs
   const totalPages = Math.ceil(totalWorks / limit) || 0
 
-  
+
   // reset current page (on selcting different author/sorting Key )
   useEffect(() => setPage(prev => 1), [authorKey, sortBy])
   

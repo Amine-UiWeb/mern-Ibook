@@ -2,12 +2,15 @@
 
 .carousel-section { background: var(--wheat-light); }
 
-  .carousel-section-header {
+.carousel-section-header {
   font-family: Lucida !important;
   width: 340px;
+  background: var(--sec-light-3);
+  gap: .5rem;
   line-height: 1.2;
 }
-.carousel-section-header::before {
+
+.carousel-section-header h3::before {
   position: absolute;
   content: "";
   height: 2rem;
@@ -15,6 +18,7 @@
   background: var(--pri-200);
   margin-left: -0.75rem;
 }
+
 .carousel-section-header svg {
   height: 1rem;
   width: 1rem;
@@ -28,3 +32,12 @@
 .carousel-section .books-carousel { margin-bottom: 3rem; }
 
 .carousel-section .dotsLoader { border-color: var(--sec-200); }
+
+
+@media (max-width: 575px) {
+  .carousel-section-header { 
+    width: 100%; 
+    gap: .5rem 3rem;
+    flex-wrap: wrap;
+  }
+}
