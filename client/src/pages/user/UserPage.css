@@ -1,0 +1,28 @@
+
+.user-page { background: var(--lighter); }
+
+/* user info */
+
+.user-page .username { color: var(--pri-400); }
+
+.user-top-nav {
+  background: var(--light-1);
+  padding: 5px 10px;
+  border-left: 2px solid #CCC9B5;
+}
+.user-top-nav span { color: var(--dark-1); }
+
+.user-top-nav a { 
+  border: 2px solid transparent; 
+  padding: 5px 5px 10px;
+  line-height: 1;
+  font-size: .88rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+.user-top-nav a.active {
+  background: #F1F1E4;
+  border-color: #CCC9B5;
+  border-bottom-color: transparent;
+  border-radius: 5px 5px 0 0;
+}
