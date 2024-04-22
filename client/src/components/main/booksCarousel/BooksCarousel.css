@@ -2,7 +2,6 @@
   position: relative;
   display: flex;
   align-items: center;
-  border-bottom: 5px solid navajowhite;  
   border-radius: .1rem;
   margin-inline: .3rem;
 }
@@ -34,12 +33,12 @@
   background: rgba(18, 18, 18, .45);
   color: wheat;
   font-size: 1.5rem;
+  line-height: 0;
   padding: 0.75rem 0.25rem;
   border: 1px solid hsla(0,0%,100%,.7);
   border-radius: 4px;
-  line-height: 0;
-  cursor: pointer;
   transition: all .25s ease-out;
+  cursor: pointer;
   z-index: 5;
 }
 .carousel-container:hover .carousel-arrow { opacity: 1; }

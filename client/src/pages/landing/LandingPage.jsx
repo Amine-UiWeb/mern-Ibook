@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react"
+import { Link } from "react-router-dom"
 
 import { TOP_GENRES } from "../../utils/constants"
 
@@ -6,7 +7,6 @@ import BooksCarousel from "../../components/main/booksCarousel/BooksCarousel.jsx
 import NoPageData from "../../components/noPageData/NoPageData.jsx"
 import { ChevronRight } from "../../components/svgs/ChevronRight"
 import "./LandingPage.css"
-import { Link } from "react-router-dom"
 
 
 const LandingPage = () => {
@@ -82,8 +82,11 @@ const LandingPage = () => {
               </span>
             </div>
 
-            <div className="books-carousel">
-              <BooksCarousel books={books[key]?.docs} />
+            <div className="books-carousel"
+              style={{ borderBottom: `5px solid ${TOP_GENRES[key]}` }}
+            >
+              <BooksCarousel books={books[key]?.docs}
+              />
             </div>
 
           </section>

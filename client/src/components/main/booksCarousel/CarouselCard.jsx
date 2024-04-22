@@ -1,17 +1,13 @@
 import { memo } from "react"
-import { Link, useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom"
 
 import useFetchImage from "../../../utils/hooks/useFetchImage"
-import { useToggleFav } from "../../../utils/hooks/useToggleFav"
 
 import DotsLoader from "../../loading/dotsLoader/DotsLoader"
 import "./CarouselCard.css"
 
 
-const CarouselCard = ({ workId, book, token, isFavorite }) => {
-
-  const { toggleFav } = useToggleFav()
-
+const CarouselCard = ({ workId, book, token, isFavorite, toggleFav }) => {
 
   const { image,  isFetchError } = useFetchImage({ 
     end: 'card_cover', dep: book?.cover_i, pathname: null, imageSize: 'M'
@@ -23,8 +19,14 @@ const CarouselCard = ({ workId, book, token, isFavorite }) => {
       { image ? (
           <div className="cover relative">
 
-            <Link to={`${book?.key}`}>
+            <Link to={`${book?.key}`} title={book?.title}>
               <img src={image} loading="lazy" />
+              { book?.title && (
+                  <p className="ta-c of-x-hidden fw-5 fs-0-8">
+                    {book?.title}
+                  </p>
+                )
+              }
             </Link>
 
             { (workId && token) && (
@@ -40,13 +42,6 @@ const CarouselCard = ({ workId, book, token, isFavorite }) => {
               )
             }
             
-            { book?.title && (
-                <p className="ta-c of-x-hidden fw-5 fs-0-8" title={book?.title}>
-                  {book?.title}
-                </p>
-              )
-            }
-
           </div>
         )
         : isFetchError ? null : <DotsLoader /> 
@@ -57,9 +52,8 @@ const CarouselCard = ({ workId, book, token, isFavorite }) => {
 }
 
 const arePropsEqual = (prev, next) => 
-  prev.isFavorite == next.isFavorite && prev.workId == next.workId &&
+  prev.isFavorite == next.isFavorite && 
+  prev.workId == next.workId &&
   prev.token == next.token
 
 export default memo(CarouselCard, arePropsEqual)
-
-// export default CarouselCard

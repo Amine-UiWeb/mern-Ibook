@@ -2,6 +2,7 @@ import { useState, useRef, useCallback, useEffect } from "react"
 import { useSelector } from "react-redux"
 
 import { selectFavorites, selectToken } from "../../../features/auth/authSlice"
+import { useToggleFav } from "../../../utils/hooks/useToggleFav"
 
 import CarouselCard from "./CarouselCard"
 import { ChevronLeft } from "../../svgs/ChevronLeft"
@@ -11,6 +12,8 @@ import "./BooksCarousel.css"
 
 const BooksCarousel = ({ books }) => {
   
+  const { toggleFav } = useToggleFav()
+
   const [dispLeftArr, setDispLeftArr] = useState(false)
   const [dispRightArr, setDispRightArr] = useState(true)
   const myRef = useRef()
@@ -62,6 +65,7 @@ const BooksCarousel = ({ books }) => {
                 workId={book?.key?.split('/works/')[1]}
                 isFavorite={favorites?.indexOf(book?.key?.split('/works/')[1]) != -1}
                 token={token}
+                toggleFav={toggleFav}
               />
           )
         }

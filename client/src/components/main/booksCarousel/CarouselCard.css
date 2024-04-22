@@ -4,11 +4,14 @@
   margin: auto .8rem;
 }
 
-.carousel-card .cover { transition: transform .1s ease-in; }
+.carousel-card .cover { 
+  transition: transform .1s ease-out; 
+}
 .carousel-card .cover:hover {
-  transform: scale(1.1, 1.05);
   box-shadow: 0 0 6px 2px rgba(34, 34, 34, 0.25);
   border-radius: 3px;
+  transform: scale(1.1, 1.05);
+  transition-duration: .15s;
 }
 
 .carousel-card a img {
