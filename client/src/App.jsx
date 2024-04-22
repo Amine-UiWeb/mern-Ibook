@@ -17,8 +17,8 @@ import WorkEditionsPage from "./pages/workEditions/WorkEditionsPage"
 
 import Browse from "./pages/browse/Browse"
 import UserPage from "./pages/user/UserPage"
-import UserSettings from "./components/main/booksGrid/UserSettings.jsx"
-import BooksGrid from "./components/main/booksGrid/BooksGrid.jsx"
+import UserSettings from "./components/main/user/UserSettings.jsx"
+import BooksCollection from "./components/main/user/BooksCollection.jsx"
 
 
 function App() {
@@ -44,7 +44,7 @@ function App() {
       { path: 'authors/:key', element: <AuthorPage /> },
       { path: 'works/:olWork/editions', element: <WorkEditionsPage /> },
       { path: 'user', element: <UserPage />, children: [
-          { path: 'collection', element: <BooksGrid /> },
+          { path: 'collection', element: <BooksCollection /> },
           { path: 'settings', element: <UserSettings /> },
         ] 
       },

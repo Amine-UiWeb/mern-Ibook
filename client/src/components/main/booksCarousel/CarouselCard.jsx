@@ -41,7 +41,7 @@ const CarouselCard = ({ workId, book, token, isFavorite }) => {
             }
             
             { book?.title && (
-                <p className="ta-c of-hidden fw-5 fs-0-8" title={book?.title}>
+                <p className="ta-c of-x-hidden fw-5 fs-0-8" title={book?.title}>
                   {book?.title}
                 </p>
               )

@@ -19,11 +19,6 @@ const BooksCarousel = ({ books }) => {
   const token = useSelector(selectToken)
 
   
-  // useEffect(() => {
-  //   let elem = myRef.current
-  //   console.log(elem.scrollLeft, elem.clientWidth + elem.scrollLeft)
-  // }, [myRef?.current?.scrollLeft])
-
   const dispHideArrows = () => {
     if (myRef.current.scrollLeft <= 20) setDispLeftArr(false)
     else setDispLeftArr(true)

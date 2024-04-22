@@ -584,8 +584,10 @@ misc
 
 /* other classes */
 
-.of-hidden { overflow: hidden; }
-.of-auto { overflow: auto; }
+.of-x-hidden { overflow-x: hidden; }
+.of-y-hidden { overflow-y: hidden; }
+.of-x-auto { overflow-x: auto; }
+.of-y-auto { overflow-y: auto; }
 
 .pointer { cursor: pointer; }
 .childs-pointer * { cursor: pointer; }
