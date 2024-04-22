@@ -1,5 +1,5 @@
 
-/* v1 */
+/* version1 */
 export default function findOverflowElem() {
   var w = document.documentElement.offsetWidth,
     t = document.createTreeWalker(document.body, NodeFilter.SHOW_ELEMENT),
@@ -18,7 +18,7 @@ export default function findOverflowElem() {
   }
 }
 
-/* v2 */
+/* version2 */
 // export default function findOverflowElem() {
 //   var all = document.getElementsByTagName("*"),
 //     i = 0,

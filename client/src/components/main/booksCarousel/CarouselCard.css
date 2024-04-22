@@ -1,13 +1,105 @@
 .carousel-card {
   padding: 5px 0;
-  scroll-snap-align: start;
-  margin: .4rem .8rem;
+  scroll-snap-align: center;
+  margin: auto .8rem;
+}
+
+.carousel-card .cover { transition: transform .1s ease-in; }
+.carousel-card .cover:hover {
+  transform: scale(1.1, 1.05);
+  box-shadow: 0 0 6px 2px rgba(34, 34, 34, 0.25);
+  border-radius: 3px;
 }
 
 .carousel-card a img {
-  width: 140px;
-  max-width: 200px;
+  max-height: 100%;
+  min-width: 8rem;
+  max-width: 8rem;
   object-fit: cover;
   border-radius: 3px;
   box-shadow: 0 0 3px 1px rgba(34, 34, 34, 0.25);
+  margin: auto;
+}
+
+.carousel-card span {
+  position: absolute;
+  display: block;
+  font-family: monospace, Courier;
+  top: 0.45rem;
+  font-weight: 500;
+  border-radius: 4px;
+  transition-property: background, opacity;
+  transition-duration: .2s;
+}
+
+.bookmark {
+  left: .4rem;
+  width: 22px;
+  height: 22px;
+  background: #33333333;
+  color: white;
+  cursor: pointer;
+  border: 2px solid rgb(214, 210, 210);
+  outline: 1px solid #444;
+  font-size: 2rem;
+  line-height: .6;
+  opacity: 1;
+}
+.bookmark:hover { background: #3333339f; }
+.bookmark.remove { background: var(--purple-600); }
+
+.bookmark.add::before, .bookmark.add::after {
+  position: absolute;
+  content: "";
+  top: 8px; left: 4px;
+  height: 2px; width: 10px;
+  background: currentColor;
+  border-radius: 5px;
+}
+.carousel-card .bookmark.add::after {
+  height: 10px; width: 2px;
+  top: 4px; left: 8px
+}
+
+.carousel-card .bookmark.remove::before,
+.carousel-card .bookmark.remove::after {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border: 2px solid;
+  border-radius: 4px
+}
+.carousel-card .bookmark.remove::after {
+  content: "";
+  left: 3px;
+  top: -1px;
+  width: 6px;
+  height: 10px;
+  border-width: 0 2px 2px 0;
+  border-style: solid;
+  transform-origin: bottom left;
+  transform: rotate(45deg)
+}
+
+.carousel-card .rating {
+  right: .4rem;
+  background: rgba(172, 175, 157, 0.829);
+  backdrop-filter: opacity(50%);
+  color: #422228;
+  font-size: .8rem;
+  line-height: .9;
+  font-weight: 600;
+  text-align: center;
+  border: 1px solid #693c45e0;
+  border-radius: 0.3rem;
+  padding: 0.2rem;
+  pointer-events: none;
+}
+.carousel-card:hover .rating { background: rgba(230, 233, 219, .9); }
+
+.carousel-card p {
+  max-width: 8rem;
+  padding: .3rem;
+  color: #333;
+  text-overflow: ellipsis;
 }

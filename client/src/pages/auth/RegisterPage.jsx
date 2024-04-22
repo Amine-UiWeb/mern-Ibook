@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 
-import { registerUser } from "../../api/axiosApi"
+import { registerUser } from "../../api/authApi"
 import { register } from "../../features/auth/authSlice"
 
 import ExclamationMark from "../../components/svgs/ExclamationMark"
@@ -88,13 +88,15 @@ const RegisterPage = () => {
       (async () => {
         try {
           const newUser = { email, username: un, password: pw }
-          const result = await registerUser(newUser)
-          if (result.user) {
+          const res = await registerUser(newUser)
+          let data = res?.data
+          
+          if (data?.user) {
             dispatch(register({ newUser }))
             navigate('/')
           }
-          if (result.error) {
-            setValidationError(result.error)
+          if (data?.error) {
+            setValidationError(data.error)
             errorRef.current.focus()
           }
         }

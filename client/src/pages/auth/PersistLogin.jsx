@@ -2,8 +2,8 @@ import { useEffect, useRef } from "react"
 import { useDispatch } from "react-redux"
 
 import usePersist from "../../utils/hooks/usePersist"
-import { refreshToken } from "../../api/axiosApi"
-import { login } from "../../features/auth/authSlice"
+import { logoutUser, refreshToken } from "../../api/authApi"
+import { login, logout } from "../../features/auth/authSlice"
 
 
 const PersistLogin = ({ children }) => {
@@ -19,10 +19,13 @@ const PersistLogin = ({ children }) => {
       if (persist) {
         (async () => {
           try {
-            const data = await refreshToken() 
-            dispatch(login({ ...data.user, token: data.aT }))
+            const { data } = await refreshToken() 
+            dispatch(login({ ...data?.user, token: data?.aT }))
           }
-          catch (err) { console.error(err) }
+          catch (err) { 
+            // delete jwt cookie when expired
+            await logoutUser()
+          }
         })()
       }
     }

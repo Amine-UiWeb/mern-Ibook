@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react"
-import axios from "axios"
+import { useState, useEffect, useRef } from "react"
 
-import { GENRES } from "../../utils/constants"
+import { TOP_GENRES } from "../../utils/constants"
 
 import BooksCarousel from "../../components/main/booksCarousel/BooksCarousel.jsx"
 import NoPageData from "../../components/noPageData/NoPageData.jsx"
@@ -12,42 +11,50 @@ import { Link } from "react-router-dom"
 
 const LandingPage = () => {
 
+  const effectRan = useRef(false)
   const [books, setBooks] = useState({})
   const [isLoading, setIsLoading] = useState(false)
   const [fetchError, setFetchError] = useState(false)
 
-
+ 
   useEffect(() => {
 
-    setFetchError(false)
-    setIsLoading(true)
+    // make sure useEffect runs only once (in strict mode in development)
+    if (!effectRan.current && process.env.NODE_ENV == "development") {
+      effectRan.current = true
+    }
 
-    // fetch books for each specified subject
-    Object.keys(GENRES).forEach(genre => {
-      const BASE_URL = `https://openlibrary.org/subjects/${GENRES[genre]}.json?`
-      const fields = `fields=key,cover_i,ratings_average`
-      const group_and_sort = 'limit=20&page=1' + '&sort=already_read'
-      const fetchUrl = `${BASE_URL}${fields}${group_and_sort}`
-      fetchBooks(fetchUrl, genre)
-    })
+    else {
+      setFetchError(false)
+      setIsLoading(true)
 
-    function fetchBooks(url, genre) {
-      fetch(url, { method: 'GET', cache: 'force-cache' })
-        .then(res => res.json())
-        .then(data => {
-          setBooks(prev => ({ ...prev, [genre]: data }))
-        })
-        .catch((err) => setFetchError(err?.message || err))
-        .finally(() => setIsLoading(false))
+      // fetch books for each specified subject
+      Object.keys(TOP_GENRES).forEach(genre => {
+        let BASE_URL = `https://openlibrary.org`
+        let query = `search.json?subject=${genre}`
+        let fields = `fields=availability,key,title,cover_i,ratings_average`
+        let group_and_Sort = 'limit=20&page=1' + '&sort=already_read'
+
+        let fetchUrl = `${BASE_URL}/${query}&${fields}&${group_and_Sort}`
+        fetchBooks(fetchUrl, genre)
+      })
+
+      async function fetchBooks(url, genre) {
+        fetch(url, { method: 'GET', cache: 'force-cache' })
+          .then(res => res.json())
+          .then(data => {
+            setBooks(prev => ({ ...prev, [genre]: data }))
+          })
+          .catch((err) => setFetchError(err?.message || err))
+          .finally(() => setIsLoading(false))
+      }
     }
 
   }, [])
 
 
-  if (!isLoading && fetchError) {
-    return <NoPageData error={fetchError} />
-  }
-
+  if (!isLoading && fetchError) return <NoPageData error={fetchError} />
+  
 
   return (
     <div className="landing-page">
@@ -60,20 +67,23 @@ const LandingPage = () => {
         Object.keys(books).map(key => (
           <section key={key} className="carousel-section">
             
-            <div className="carousel-section-header flex-row ai-c jc-sb p-1">
+            <div 
+              className="carousel-section-header flex-row ai-c jc-sb p-1"
+              style={{ background: TOP_GENRES[key] }}
+            >
               <h3 className="h3 fw-4">
-                <Link to={'browse' + books?.[key]?.key} className="cap">
-                  <span className="mr-0-5">{key}</span>
+                <Link to={'/browse/subjects/' + key}>
+                  <span className="mr-0-5 cap">{key}</span>
                   <ChevronRight />
                 </Link>
               </h3>
               <span className="fw-7 fs-0-85 underline">
-                - {books[key]?.work_count} Books -
+                - {books[key]?.numFound || books[key]?.num_found} Books -
               </span>
             </div>
 
             <div className="books-carousel">
-              <BooksCarousel books={books[key].works} />
+              <BooksCarousel books={books[key]?.docs} />
             </div>
 
           </section>

@@ -1,16 +1,24 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 let BASE_URL = 'https://covers.openlibrary.org'
 
 
 const useFetchImage = ({ end, dep, pathname, imageSize }) => {
   
+  const effectRan = useRef(false)
   const [image, setImage] = useState(null)
   const [isImageLoading, setIsImageLoading] = useState(false)
   const [isFetchError, setIsFetchError] = useState(false)
   
   useEffect(() => {
-    if (dep !== pathname && !dep) setIsImageLoading(true) 
+    
+    // make sure useEffect runs only once (in strict mode)
+    if (!effectRan.current && process.env.NODE_ENV == "development") {
+      effectRan.current = true
+    }
+
+    // exit when the dep is still null
+    else if (!dep) setIsImageLoading(true) 
 
     else {
       setIsImageLoading(prev => true)
@@ -19,20 +27,21 @@ const useFetchImage = ({ end, dep, pathname, imageSize }) => {
       let url
 
       // landing page (carousel card)
-      if (end == 'carousel_cover') {
-        url = `${BASE_URL}/b/id/${dep?.cover_id || dep?.cover_i}-${imageSize}.jpg`
+      if (end == 'card_cover') {
+        const phImg = '?default=https://openlibrary.org/images/icons/avatar_book.png'
+        url = `${BASE_URL}/b/id/${dep}-${imageSize}.jpg${phImg}`
       }
 
       // Work page
       else if (end == 'b_cover') {
-        url = `${BASE_URL}/b/id/${dep?.covers?.[0]}-${imageSize}.jpg`
+        url = `${BASE_URL}/b/id/${dep}-${imageSize}.jpg`
       }
     
       else if (end == 'b_photo') {
         let authorKey = dep?.authors?.[0]?.author?.key || dep?.author?.key
         let olid = authorKey?.split('/authors/')[1]
         url = `${BASE_URL}/a/olid/${olid}-${imageSize}.jpg`
-      } 
+      }
 
       // Author page
       else if (end == 'a_photo' || end == 'a_cover') {
@@ -40,30 +49,31 @@ const useFetchImage = ({ end, dep, pathname, imageSize }) => {
       }
 
       else if (end == 'edition_cover') {
-        url = `https://archive.org/services/img/${dep}`
+        url = BASE_URL + `/b/olid/${dep}-${imageSize}.jpg`
       }
     
 
-      // use setTimeout only in development
-      // setTimeout(() => {
-        fetch(url, { cache: "force-cache" })
+      // note: use setTimeout only in development
+      setTimeout(() => {
+        fetch(url, { method: 'GET', cache: 'force-cache' })
           .then(res => res.blob())
           .then(blob => {
             let reader = new FileReader()  
             reader.onload = function () { 
-              setImage(this.result) 
+              setImage(prev => this.result) 
               setIsImageLoading(prev => false)
             }
             reader.readAsDataURL(blob)
           })
           .catch(err => {
-            setIsFetchError(true)
+            setIsFetchError(prev => true)
             setImage(prev => null)
             setIsImageLoading(prev => false)
           })
-      // }, 300000);
+      }, 0);
 
     }
+
   }, [dep, pathname])
 
   return { image, isImageLoading ,isFetchError }

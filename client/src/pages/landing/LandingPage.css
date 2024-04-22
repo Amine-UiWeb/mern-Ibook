@@ -29,7 +29,7 @@
 
 .carousel-section-header > span { color: var(--pri-400); }
 
-.carousel-section .books-carousel { margin-bottom: 3rem; }
+.carousel-section:not(:last-child) .books-carousel { margin-bottom: 3rem; }
 
 .carousel-section .dotsLoader { border-color: var(--sec-200); }
 

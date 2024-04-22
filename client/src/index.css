@@ -33,6 +33,7 @@
   /* colors */
 
   /* black and white shades */
+  --lighter: rgb(250, 250, 250);
   --light-1: rgb(245, 245, 245);
   --light-2: rgb(238, 238, 238);
   --light-3: rgb(221, 221, 221);
@@ -47,7 +48,7 @@
   /* primary color */
   --pri-light-1: rgb(240, 241, 243);
   --pri-light-2: rgb(226, 229, 235);
-  --pri-light-3: rgb(240, 241, 243);
+  --pri-light-3: rgb(204, 210, 221);
   --pri-100: rgb(188, 196, 206);
   --pri-200: rgb(137, 147, 158);
   --pri-400: rgb(57, 85, 116); 
@@ -64,7 +65,7 @@
   --sec-600: rgb(23, 94, 71);
   --sec-800: rgb(19, 66, 52);
 
-  /* third colors */
+  /* other colors */
   --wheat-light: rgb(245, 239, 229);
   --wheat-200: rgb(245, 222, 179);
   --wheat-400: rgb(202, 180, 140);
@@ -73,27 +74,31 @@
   --wheat-dark: rgb(44, 35, 17);
 
   --purple: 165, 91, 140;
-  --purple-light-1: rgba(var(--purple), .2);
-  --purple-100: rgba(var(--purple), .8);
-  --purple-200: rgba(var(--purple), 1);
-
-  --crimson-light-1: rgb(235, 217, 220);
-  --crimson-light-2: rgb(235, 182, 192);
-  --crimson-light-3: rgb(240, 153, 170);
-  --crimson-100: rgb(238, 59, 95);
-  --crimson-200: rgb(219, 46, 81);
-  --crimson-400: rgb(168, 37, 64);
-  --crimson-600: rgb(128, 28, 48);
-  --crimson-800: rgb(73, 17, 28);
-  --crimson-dark: rgb(40, 10, 16);
+  --purple-light-1: rgb(235, 217, 224);
+  --purple-light-2: rgb(235, 182, 211);
+  --purple-light-3: rgb(240, 153, 201);
+  --purple-100: rgb(228, 153, 190);
+  --purple-200: rgb(204, 107, 156);
+  --purple-400: rgb(173, 89, 128);
+  --purple-600: rgb(121, 61, 89);
+  --purple-800: rgb(97, 40, 64);
+  --purple-dark: rgb(51, 18, 32);
 
   /* additional colors */
   --add-info: var(--sec-600);
   --add-warning: #fafad2;
   
   
-  /* border-color */
+  /* border color */
   --border-color: var(--pri-200);
+
+
+  /* text color */
+  --text-color: var(--dark-3);
+
+  /* background color */
+  --body-bg: var(--lighter); 
+
 
 
   /* fontSize */
@@ -119,18 +124,35 @@
 /* -------------------------------- */
 
 /** 
+* dark theme changes
+*/
+
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --body-bg: var(--dark-1)
+  }
+  body { background: green !important; }
+}
+
+
+/* -------------------------------- */
+
+/** 
 * basic
 */
 
 body {
   min-height: 100vh;
   min-width: 300px;
+  color: var(--text-color);
+  background: var(--body-bg);
   padding: 0;
   margin: 0;
 }
 body:has(.display) { overflow-x: hidden; }
 
-::-webkit-scrollbar { width: 12px; }
+::-webkit-scrollbar { width: 12px; height: 12px; }
 ::-webkit-scrollbar-track { background-color: var(--light-1); }
 
 ::-webkit-scrollbar-thumb {
@@ -233,27 +255,22 @@ input:where([type="search"], [type="text"], [type="password"], [type="Email"]) {
   border-radius: .3rem;
   transition: all .3s;
 }
+input:placeholder-shown { text-overflow: ellipsis; }
 input:where(
   [type="search"], [type="text"], [type="password"], [type="Email"]
-):focus-within {
-  outline-color: var(--pri-100);
-  background: #fff;
-}
-input:where(
-  [type="search"], [type="text"], [type="password"], [type="Email"]
-)::placeholder { font-size: var(--fs-0-95); }
+):focus-within { outline-color: var(--pri-100); background: #fff; }
 
-input[type="checkbox"] {
+input[type="checkbox"], input[type="radio"] {
   accent-color: var(--purple-200);
   filter: hue-rotate(270deg);
 }
 
 select {
-  padding: .4rem .6rem;
-  border-radius: .3rem;
-  font-weight: 800;
-  color: var(--pri-600);
   width: fit-content;
+  color: var(--gray-800);
+  border: 1px solid var(--gray-600);
+  border-radius: .25rem;
+  padding: .3rem .6rem !important;
 }
 
 button {
@@ -364,6 +381,9 @@ colors
 .gray-400 { color: var(--gray-400); }
 .gray-600 { color: var(--gray-600); }
 .gray-800 { color: var(--gray-800); }
+.dark-1 { color: var(--dark-1); }
+.dark-2 { color: var(--dark-2); }
+.dark-3 { color: var(--dark-3); }
 
 
 /*-------------
@@ -386,8 +406,8 @@ position / display / appearance
 
 .underline { text-decoration: underline; }
 .hover-underline:hover { text-decoration: underline; }
-.underline-children > * { text-decoration: underline; }
-.hover-underline-children > *:hover { text-decoration: underline; }
+.childs-underline > * { text-decoration: underline; }
+.childs-hover-underline > *:hover { text-decoration: underline; }
 
 .uppercase { text-transform: uppercase; }
 .lowercase { text-transform: lowercase; }
@@ -567,26 +587,8 @@ misc
 .of-hidden { overflow: hidden; }
 .of-auto { overflow: auto; }
 
-
-/** 
-* dark theme changes
-*/
-
-/* -------------------------------- */
-
-
-@media (prefers-color-scheme: light) {
-  /* :root {} */
-  button { background-color: #f9f9f9; }
-}
-
-/* @media (prefers-color-scheme: light) {
-  :root {
-    --wheat-light: var(--wheat-dark);
-    --wheat-200: var(--wheat-800);
-    --pri-light-1: var(--pri-800)
-  }
-} */
+.pointer { cursor: pointer; }
+.childs-pointer * { cursor: pointer; }
 
 
 /* -------------------------------- */

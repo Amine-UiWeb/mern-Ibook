@@ -80,7 +80,7 @@ const Header = () => {
     e.target.closest('.search-container').classList.remove('active')
 
 
-  // tip: discover the overflowing elements (use only in development)
+  // note: discover the overflowing elements (use only in development)
   // useEffect(() => findOverflowElem(), [])
 
 

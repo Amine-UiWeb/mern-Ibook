@@ -33,14 +33,18 @@
 
 ## implement form validation and accessibility features for user registration
 
-- [x] Implement __form validation__, and display __validation errors__, for __login__ and __registration__ forms.
-- [x] Implement __state management__ for user authentication with __redux-toolkit__.
-- [x] Add login and registration __api endpoints__.
+- [x] Implement __form validation__
+- [x] Display __validation errors__, for __login__ and __registration__ forms.
+
+- [x] Implement __state management__ for user authentication using __redux-toolkit__.
+
+- [x] Setup login and registration __api endpoints__.
 - [x] Add login and registration __logic for the client__.
+
 - [x] Allow persisted user login using __httpOnly jwt cookie__ and __localstorage__.
 
 ## add search functionality for books and authors
 
-- [x] Create a __search bar__ to search a book by __title__/__author__.
-- [x] Display search results(5) in a dropdown menu upon typing (use debouncing).
-- [ ] display search results in a __search results__ page when hitting ENTER/search-icon (with pagination).
+- [x] Create a __search bar__ to search a book by __title__/__author__/__genre__.
+- [x] Display search results(5) in a menu upon typing (use debouncing).
+- [ ] display search results in a __search results__ on hitting ENTER/search-icon

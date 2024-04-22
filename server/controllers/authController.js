@@ -4,7 +4,7 @@ import User from "../models/User.js"
 
 
 const genAccessToken = (_id) =>
-  jwt.sign({ _id }, process.env.SECRET, { expiresIn: '15m' })
+  jwt.sign({ _id }, process.env.SECRET, { expiresIn: '1h' })
 
 const genRefreshToken = (_id) =>
   jwt.sign({ _id }, process.env.SECRET, { expiresIn: '3d' })
@@ -73,10 +73,11 @@ export const login = async (req, res) => {
   const aT = genAccessToken(user._id)
   const rT = genRefreshToken(user._id)
 
+  
   // send refreshToken in a cookie
   res.cookie('jwt', rT, {
     maxAge: 3 * 24 * 60 * 60 * 1000, //cookie expiry: set to match rT
-    httpOnly: true, // accessible only by web server
+    httpOnly: false, // accessible only by web server
     sameSite: 'None', // cross-site cookie
     secure: true, // https
   })
@@ -92,32 +93,31 @@ export const login = async (req, res) => {
 // @access Public
 
 export const refresh = async (req, res) => {
+  
   // Is cookie received? 
-  if (!req.cookies?.jwt) return res.status(401).json({ error: "Unauthorized" })
+  let rT = req.cookies?.jwt
+  if (!rT) return res.sendStatus(403)
 
-  if (req.cookies?.jwt) {
-    // Destructuring refreshToken from cookie
-    const rT = req.cookies.jwt
+  // Verifying refreshToken
+  jwt.verify(rT, process.env.SECRET, async (err, decoded) => {
 
-    // Verifying refreshToken
-    jwt.verify(rT, process.env.SECRET, async (err, decoded) => {
+    if (err) return res.sendStatus(403)
 
-      if (err) return res.status(403).json({ error: 'Forbidden' })
-      else {
-        // Get user data 
-        const user = await User.findOne({ _id: decoded._id })
-        if (!user) return res.status(409).json({ error: 'Email is not registered!' })
-        
-        // create new accessToken 
-        const aT = genAccessToken(user._id)
-        
-        // return user information and accessToken
-        user.password = null
-        res.status(200).json({ message: 'Login seccessful.', aT, user })
-      }
+    else {
+      // Get user data 
+      const user = await User.findOne({ _id: decoded._id })
+      if (!user) return res.status(409).json({ error: 'Email is not registered!' })
+      
+      // create new accessToken 
+      const aT = genAccessToken(user._id)
+      
+      // return user information and accessToken
+      user.password = null
+      res.status(200).json({ message: 'Refresh seccessful.', aT, user })
+    }
 
-    })
-  }
+  })
+
 }
 
 
@@ -125,6 +125,9 @@ export const refresh = async (req, res) => {
 // @route POST /auth/logout
 // @access Public
 export const logout = async (req, res) => {
-  res.clearCookie('jwt')
+  if (!req.cookies?.jwt) return res.sendStatus(204)  // No content
+  
+  res.clearCookie('jwt', { httpOnly: false, sameSite: 'None', secure: true })
   res.status(200).json({ message: 'Logout seccessful.'})
 }
+

@@ -20,7 +20,7 @@ const SearchPaginItem = ({ work, pathname }) => {
   const { 
     key, title, first_publish_year, cover_i, author_name, 
     number_of_pages_median, ratings_average, ratings_count,
-    edition_count, language, ia, 
+    edition_count, edition_key, language, ia, 
   } = work
 
 
@@ -33,8 +33,9 @@ const SearchPaginItem = ({ work, pathname }) => {
   let prev = ia?.length > 0 ? ' - ' + ia?.length + ' previewable' : ''
 
   
-  const { image, isImageLoading, isFetchError } = 
-    useFetchImage({ end: 'a_cover', dep: cover_i, pathname, imageSize: 'L' })
+  const { image, isImageLoading, isFetchError } = useFetchImage({ 
+    end: 'a_cover', dep: cover_i, pathname, imageSize: 'L'
+  })
   
 
   return (
@@ -70,7 +71,7 @@ const SearchPaginItem = ({ work, pathname }) => {
               </div>
             )}
             {number_of_pages_median && (
-              <div className="n-pages fs-0-8 fw-5">{number_of_pages_median}{' '}page</div>
+              <div className="n-pages fs-0-75 fw-6">{number_of_pages_median}{' '}pages</div>
             )}
           </div>
         </div>
@@ -84,7 +85,8 @@ const SearchPaginItem = ({ work, pathname }) => {
             {lang}{prev}
           </span>
           
-          <EditionsPrev ia={ia?.slice(0, 9)} height="45px" />
+          {/* <EditionsPrev ia={ia?.slice(0, 9)} height="45px" /> */}
+          <EditionsPrev edition_key={edition_key?.slice(0, 9)} height="45px" />
 
         </span>
       

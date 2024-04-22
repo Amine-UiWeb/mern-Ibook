@@ -12,7 +12,7 @@
   text-decoration: underline;
   border: none;
 }
-.sort-menu .active { background: var(--crimson-light-2); text-decoration: none; }
+.sort-menu .active { background: var(--purple-light-2); text-decoration: none; }
 
 
 /* works-pagin */
@@ -97,8 +97,9 @@
 
 .extra-info {
   min-width: fit-content;
-  background: var(--pri-100);
+  background: rgba(188, 196, 206, 0.8);
   color: var(--pri-600);
+  border-radius: .1rem;
 }
 .extra-info > * { padding: .4rem; }
 .extra-info .rating { border-bottom: 1px solid var(--light-1); }

@@ -17,8 +17,8 @@ const Footer = () => {
       <div className="footer-grid">
         
         {/* links */}
-        <div>
-          <ul className="underline-children flex-col gap-0-25 p-0-5">
+        <div className="footer-about">
+          <ul className="childs-underline flex gap-0-5 m-auto w-fit">
             <li><Link to="#" href="#">About us</Link></li>
             <li><Link to="#" href="#">Terms</Link></li>
             <li><Link to="#" href="#">Privacy</Link></li>
@@ -27,7 +27,7 @@ const Footer = () => {
         </div>
 
         {/* social links and contact */}
-        <div className="p-0-5 flex-col gap-2 ai-c ta-c">
+        <div className="footer-social flex-col gap-2 ai-c jc-sa ta-c">
 
           <div className="social-wrapper">
             <h5 className="h5 mb-0-5 fs-1-2 fw-7">FOLLOW US</h5>
@@ -43,29 +43,27 @@ const Footer = () => {
 
           <div className="contact-wrapper d-in">
             <h5 className="h5 d-in mr-1 fs-1-2 fw-7 uppercase">Contact US</h5>
-            <span className="fs-1 fw-5 ">05 - 12345678</span>
+            <span className="fs-1 fw-5 dark-1">05-12345678</span>
           </div>
 
         </div>
 
         {/* subscribe */}
-        <div className="flex-col gap-2 p-0-5">
-          <div className="subscribe-wrapper">
-            <div className="text">
-              <h5 className="fs-1-3 fw-6">Start using iBook now.</h5>
-              <h6 className="fsd-0-8 fw-7 uppercase mb-1">No credit card required</h6>
-            </div>
+        <div className="footer-sub">
+
+          <div className="subscribe-wrapper m-auto">
+            <h5 className="fs-1-3 fw-6 dark-2">Start using iBook now.</h5>
+            <h6 className="fsd-0-8 fw-7 uppercase mb-1">No credit card required</h6>
             <div className="input-wrapper">
               <input type="email" id="subscribe" placeholder="Your Email" />
               <Telegram />
             </div>
+            <h6 className="mt-0-25">
+              Submit your email address to receive iBook Dock offers & updates. Unsubscribe 
+              from our emails at any time.
+            </h6>
           </div>
-          <div className="brand-wrapper flex-row gap-1-5 ai-c mt-1">
-            <img src={Logo} alt="" />
-            <p className="fs-0-9 fw-5 uppercase">
-              Browse your favorite books and add them to your personal collection
-            </p>
-          </div>
+          
         </div>
       
       </div>

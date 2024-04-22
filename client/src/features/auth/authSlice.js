@@ -5,7 +5,7 @@ const initialState = {
   email: null,
   username: null,
   token: null,
-  favoriteBooks: []
+  favorite_books: []
 }
 
 const getPayloadData = ({ 
@@ -14,26 +14,39 @@ const getPayloadData = ({
 
 
 export const authSlice = createSlice({
-  name: 'auth',
-  initialState,
+  name: 'auth', 
+  initialState, 
   reducers: {
-    register: (state, action) => {
-      return getPayloadData(action.payload)
-    },
-    login: (state, action) => {
-      return getPayloadData(action.payload)
-    },
-    refresh: (state, action) => {
-      return getPayloadData(action.payload) 
-    },
-    logout: (state) => {
-      return initialState
+    register: (state, action) => getPayloadData(action.payload),
+    
+    login: (state, action) => getPayloadData(action.payload),
+    
+    refresh: (state, action) => ({ ...state, token: action.payload.aT }),
+    
+    logout: (state) => initialState,
+    
+    toggleFavorite: (state, action) => {
+      let { workId, toggle } = action.payload
+      let index = state.favorite_books.indexOf(workId)
+      
+      if (toggle == 'add') state.favorite_books.push(workId)
+      if (toggle == 'remove') state.favorite_books.splice(index, 1)  
+      
+      return state
     }
   }
 })
 
-export const selectToken = (state) => state.auth.token
 
-export const { register, login, logout } = authSlice.actions
+export const selectIsToken = (state) => state.auth.token ? true : false
+export const selectToken = (state) => state.auth.token
+export const selectUsername = (state) => state.auth.username
+
+export const selectFavorites = (state) => state.auth.favorite_books
+export const selectIsFavorite = (state, workId) => 
+  state.auth.favorite_books.some(id => id == workId)
+
+
+export const { register, login, refresh, logout, toggleFavorite } = authSlice.actions
 
 export default authSlice.reducer

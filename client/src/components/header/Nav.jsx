@@ -2,22 +2,27 @@ import { useEffect, useState } from "react"
 import { NavLink } from "react-router-dom"
 import { useSelector } from "react-redux"
 
-import { selectToken } from "../../features/auth/authSlice"
+import { selectIsToken } from "../../features/auth/authSlice"
 
 import { Sun, Moon } from "../svgs/ThemeIcons"
 import { ChevronRight } from "../svgs/ChevronRight"
-import { SUBJECTS } from "../../utils/constants"
+import { GENRES, AWARDS } from "../../utils/constants"
 import "./Nav.css"
 
 
 const Nav = ({ isPanelOpen, closePanel }) => {
 
-  const token = useSelector(selectToken)
+  const token = useSelector(selectIsToken)
 
   const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light')
 
   useEffect(() => {
-    // toggle prefers-theme to: light or dark
+    if (theme == 'light') {
+      // toggle prefers-theme to: light or dark
+    }
+    if (theme == 'dark') {
+      window.matchMedia && window.matchMedia('(prefers-color-scheme: light)').matches;
+    }
   }, [theme])
 
   useEffect(() => {
@@ -60,11 +65,9 @@ const Nav = ({ isPanelOpen, closePanel }) => {
             <a href="#" data-dropdown-opener>Subjects</a>
             <ChevronRight />
             <ul className="sub-dropdown-ul subjects-ul">
-              { Object.keys(SUBJECTS)?.map((subject, i) => (
+              { Object.keys(GENRES)?.map((subject, i) => (
                   <li key={i}>
-                    <NavLink to={`browse/subjects/${SUBJECTS[subject]}`}>
-                      {subject}
-                    </NavLink>
+                    <NavLink to={`browse/subjects/${subject}`}>{GENRES[subject]}</NavLink>
                   </li>
                 ))
               }
@@ -75,11 +78,9 @@ const Nav = ({ isPanelOpen, closePanel }) => {
             <a href="#" data-dropdown-opener>Awards</a>
             <ChevronRight />
             <ul className="sub-dropdown-ul awards-ul">
-              { Object.keys(SUBJECTS)?.map((subject, i) => (
+              { Object.keys(AWARDS)?.map((award, i) => (
                   <li key={i}>
-                    <NavLink to={`browse/subjects/${SUBJECTS[subject]}`}>
-                      {subject}
-                    </NavLink>
+                    <NavLink to={`browse/awards/${award}`}>{AWARDS[award]}</NavLink>
                   </li>
                 ))
               }
@@ -88,7 +89,7 @@ const Nav = ({ isPanelOpen, closePanel }) => {
 
           <li><NavLink to="browse/recommendations">Recommendations</NavLink></li>
           <li><NavLink to="browse/popular">Most Popular</NavLink></li>
-          <li><NavLink to="browse/explore">Explore</NavLink></li>
+          <li><NavLink to="browse/explore">Deep Search</NavLink></li>
         
         </ul>
       </div>
@@ -108,10 +109,9 @@ const Nav = ({ isPanelOpen, closePanel }) => {
         </ul>
       </div>
 
-      <div className="mode-toggler" style={{ 
-          "--theme": theme === 'light' ? '##7e7e7e' : 'var(--pri-200)' 
-      }}>
-        { theme === 'light' ? <Sun /> : <Moon /> }
+      <div className="mode-toggler">
+        <Sun cls={theme == 'light' ? 'active' : ''} />
+        <Moon cls={theme != 'light' ? 'active' : ''} />
         <input 
           type="checkbox" 
           id="theme-toggler" 

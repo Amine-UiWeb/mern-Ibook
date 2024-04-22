@@ -15,7 +15,7 @@
 .overlay {
   position: absolute;
   display: none;
-  /* background: var(--crimson-light-2); */
+  /* background: var(--purple-light-2); */
   top: -1000px;
   left: -1000px;
   width: 0;
@@ -35,12 +35,13 @@
   color: rgb(var(--purple));
   border: none;
   border-radius: 1rem;
+  transition: border-radius .2s;
 }
 .nav .browse:hover button { background: var(--light-1); }
 .nav .browse.display button {
-  background: var(--purple-200);
+  background: rgb(var(--purple));
   color: var(--pri-light-1);
-  border-radius: .2rem .2rem 0 0; 
+  border-radius: .35rem .35rem 0 0; 
 }
 
 :is(.dropdown-ul, .sub-dropdown-ul) {
@@ -128,31 +129,31 @@
   position: relative;
   height: 2rem;
   width: 2rem;
-  padding: .1rem;
-  border-radius: 50%;
 }
 .nav .mode-toggler > input {
   position: absolute;
   inset: 0;
   opacity: 0;
   cursor: pointer;
+  z-index: 10;
 }
-.nav .mode-toggler > svg {
+.nav .mode-toggler svg {
   position: absolute;
   inset: 0;
   height: 100%;
   width: min-content;
+  padding: .1rem;
   border-radius: 50%;
+  transform: rotate(0deg) scale(0);
+  transition: transform .75s 0s;
 }
-.nav .mode-toggler svg.sun { 
-  background: linear-gradient(180deg,#ffcc89,#d8860b); 
-  border: 2px solid #e7cd9a;
-}
-.nav .mode-toggler svg.moon { 
-  background: #ccc;
-  padding: .2rem;
-  border: 2px solid #888;
-}
+.nav .mode-toggler svg.sun { background: #FFD8B2; }
+.nav .mode-toggler svg.moon { background: var(--light-1); }
+.nav .mode-toggler svg.active { 
+  z-index: 2;
+  transform: rotate(360deg) scale(1);
+  transition: transform .75s .3s;
+} 
 
 
 /* media queries */

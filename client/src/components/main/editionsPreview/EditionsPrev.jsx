@@ -2,13 +2,14 @@ import EditionsPrevItem from "./EditionsPrevItem"
 import "./EditionsPrev.css"
 
 
-const EditionsPreview = ({ ia, height }) => {
+const EditionsPreview = ({ ia, edition_key, height }) => {
+
 
   return (
     <span className="preview-covers d-bl of-hidden mt-0-25" style={{ height }}>
       {
-        ia?.map((iaKey, i) => (
-          <EditionsPrevItem key={i} iaKey={iaKey} />
+        edition_key?.map((ia, i) => (
+          <EditionsPrevItem key={i} ia={ia} />
         ))
       }
     </span>

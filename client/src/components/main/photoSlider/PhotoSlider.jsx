@@ -27,21 +27,24 @@ const PhotoSlider = ({ pathname, ids, height }) => {
   return (
     <div className="photo-slider slider-container relative" style={{ height }}>
 
-      <button 
-        className="slider-arrow slider-prev-arrow" 
-        onClick={prevSlide} disabled={currentSlide <= 1}
-      ><ChevronLeft /></button>
-      
+      { ids?.length > 1 && (
+          <>
+            <button 
+              className="slider-arrow slider-prev-arrow" 
+              onClick={prevSlide} disabled={currentSlide <= 1}
+            ><ChevronLeft /></button>
+            <button 
+              className="slider-arrow slider-next-arrow" 
+              onClick={nextSlide} disabled={currentSlide >= ids.length}
+            ><ChevronRight /></button>
+          </>
+        )
+      }
+    
       <div className="slide-wrapper">
-        { <img src={authorPhoto} style={{ height: height }}/>
-        }
+        { <img src={authorPhoto} style={{ height: height }}/> }
       </div>
       
-      <button 
-        className="slider-arrow slider-next-arrow" 
-        onClick={nextSlide} disabled={currentSlide >= ids.length}
-      ><ChevronRight /></button>
-    
     </div>
   )
 }

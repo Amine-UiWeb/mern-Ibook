@@ -15,6 +15,8 @@ import { requestLogger } from "./middlewares/requestLogger.js";
 import { errorHandler } from "./middlewares/errorHandler.js";
 
 import authRouter from "./routers/authRouter.js"
+import userRouter from "./routers/userRoutes.js"
+
 
 /*------------
 configurations
@@ -68,6 +70,8 @@ Route Handlers
 --------------*/
 
 app.use('/auth', authRouter)
+
+app.use('/user', userRouter)
 
 // custom 404
 app.use('*', (req, res) => {

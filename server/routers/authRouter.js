@@ -7,6 +7,6 @@ import { register, login, refresh, logout }
 router.route('/register').post(register)
 router.route('/login').post(login)
 router.route('/refresh').get(refresh)
-router.route('/logout').post(logout)
+router.route('/logout').get(logout)
 
 export default router

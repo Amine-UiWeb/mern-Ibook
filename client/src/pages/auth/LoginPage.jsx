@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 
-import { loginUser } from "../../api/axiosApi"
+import { loginUser } from "../../api/authApi"
 import { login } from "../../features/auth/authSlice"
 import usePersist from "../../utils/hooks/usePersist"
 
@@ -47,14 +47,16 @@ const LoginPage = () => {
     else {
       (async () => {
         try {
-          const credentials = { email, password: pw }
-          const result = await loginUser(credentials)
-          if (result.user) {
-            // navigate('/')
-            dispatch(login({ ...result.user, token: result.aT }))
+          let credentials = { email, password: pw }
+          let res = await loginUser(credentials)
+          let data = res?.data
+          
+          if (data?.user) {
+            navigate('/')
+            dispatch(login({ ...data.user, token: data?.aT }))
           }
-          if (result.error) {
-            setValidationError(result.error)
+          if (data?.error) {
+            setValidationError(data.error)
             errorRef.current.focus()
           }
         } 

@@ -32,8 +32,11 @@
   width: 4.5rem;
   padding-inline: .4rem;
 }
-.login-form label span.eye:last-child { font-size: .8rem; }
 .login-form label span.eye svg { color: var(--gray-600); }
+.login-form label span.eye:last-child { 
+  font-size: .75rem; 
+  color: var(--gray-600);
+}
 
 
 /* input */
@@ -79,7 +82,7 @@
 }
 
 .login-form > div.error {
-  background: var(--crimson-200);
+  background: var(--purple-200);
   color: white;
   font-size: .8rem;
   font-weight: 600;
@@ -92,7 +95,7 @@
 .login-form button {
   margin: 1rem auto;
   padding: .4rem 1.6rem;
-  border: 4px solid var(--crimson-light-1);
+  border: 4px solid var(--purple-light-1);
   border-radius: 1rem;
   box-shadow: 0 0 1px 1px #aaa;
 }

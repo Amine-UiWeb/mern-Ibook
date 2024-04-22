@@ -8,13 +8,17 @@ import Header from "./components/header/Header"
 // Pages
 import LoginPage from "./pages/auth/LoginPage"
 import RegisterPage from "./pages/auth/RegisterPage"
+import PersistLogin from "./pages/auth/PersistLogin"
+
 import LandingPage from "./pages/landing/LandingPage"
-import WorkPage from "./pages/workPage/WorkPage"
-import AuthorPage from "./pages/authorPage/AuthorPage"
+import WorkPage from "./pages/work/WorkPage"
+import AuthorPage from "./pages/author/AuthorPage"
+import WorkEditionsPage from "./pages/workEditions/WorkEditionsPage"
+
 import Browse from "./pages/browse/Browse"
 import UserPage from "./pages/user/UserPage"
-import PersistLogin from "./pages/auth/PersistLogin"
-import WorkEditionsPage from "./pages/workEditionsPage/WorkEditionsPage"
+import UserSettings from "./components/main/booksGrid/UserSettings.jsx"
+import BooksGrid from "./components/main/booksGrid/BooksGrid.jsx"
 
 
 function App() {
@@ -28,18 +32,22 @@ function App() {
       <Footer />
     </PersistLogin>
   )
-
+  
   const router = createBrowserRouter([{
     path: '/',
     element: <Root />,
     children: [
       { index: true, element: <LandingPage /> },
-      { path: '/login', element: <LoginPage /> },
-      { path: '/register', element: <RegisterPage /> },
-      { path: '/user/collection', element: <UserPage /> },
-      { path: '/works/:olWork', element: <WorkPage /> },
-      { path: '/authors/:key', element: <AuthorPage /> },
-      { path: '/works/:olWork/editions', element: <WorkEditionsPage /> },
+      { path: 'login', element: <LoginPage /> },
+      { path: 'register', element: <RegisterPage /> },
+      { path: 'works/:olWork', element: <WorkPage /> },
+      { path: 'authors/:key', element: <AuthorPage /> },
+      { path: 'works/:olWork/editions', element: <WorkEditionsPage /> },
+      { path: 'user', element: <UserPage />, children: [
+          { path: 'collection', element: <BooksGrid /> },
+          { path: 'settings', element: <UserSettings /> },
+        ] 
+      },
       {
         path: '/browse/*', 
         element: <Browse />,

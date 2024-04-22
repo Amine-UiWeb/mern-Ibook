@@ -18,8 +18,8 @@
 .carousel-container .carousel-wrapper {
   display: flex;
   align-items: center;
-  height: 270px;
   gap: 5px;
+  height: 18rem;
   overflow-x: auto;
   white-space: nowrap;
   scroll-behavior: smooth;
@@ -49,6 +49,6 @@
 
 .carousel-container .carousel-arrow svg { line-height: 0; }
 
-.carousel-section .dotsLoader { height: 210px; width: 140px; }
+.carousel-section .dotsLoader { height: 12.4rem; width: 8rem; }
 
 @media (max-width: 767px) { .carousel-container { margin-inline: .5rem; } }

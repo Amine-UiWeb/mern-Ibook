@@ -16,9 +16,6 @@ const toggleActive = (target, parent, childs) => {
 
 const SearchPaginList = ({ authorKey, totalWorks }) => {
   
-  // limit: the the number of returned works in each batch (default: 20)
-  // page: the starting point to fetch a batch of works (default: 1)
-
   const limit = 10
   const [page, setPage] = useState(1)
   const [sortBy, setSortedBy] = useState('most_editions')

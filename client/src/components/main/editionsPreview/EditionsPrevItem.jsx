@@ -1,15 +1,19 @@
 import useFetchImage from "../../../utils/hooks/useFetchImage"
 import { Link } from "react-router-dom"
 
-const EditionsPrevItem = ({ iaKey }) => {
+const EditionsPrevItem = ({ ia }) => {
 
   const { image, isImageLoading, isFetchError } = useFetchImage({
-    end: 'edition_cover', dep: iaKey, pathname: null 
+    end: 'edition_cover', dep: ia, pathname: null, imageSize: 'S'
   }) 
   
   
   return (
-    <Link className="d-in" to="#" >
+    <Link 
+      to="#" 
+      className="d-din" 
+      style={{ display: isFetchError ? 'none' : 'inline' }} 
+    >
       <img src={image} />
     </Link>
   )

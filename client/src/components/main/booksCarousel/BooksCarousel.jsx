@@ -1,4 +1,7 @@
-import { useState, useRef, useCallback } from "react"
+import { useState, useRef, useCallback, useEffect } from "react"
+import { useSelector } from "react-redux"
+
+import { selectFavorites, selectToken } from "../../../features/auth/authSlice"
 
 import CarouselCard from "./CarouselCard"
 import { ChevronLeft } from "../../svgs/ChevronLeft"
@@ -12,7 +15,15 @@ const BooksCarousel = ({ books }) => {
   const [dispRightArr, setDispRightArr] = useState(true)
   const myRef = useRef()
 
+  const favorites = useSelector(selectFavorites)
+  const token = useSelector(selectToken)
+
   
+  // useEffect(() => {
+  //   let elem = myRef.current
+  //   console.log(elem.scrollLeft, elem.clientWidth + elem.scrollLeft)
+  // }, [myRef?.current?.scrollLeft])
+
   const dispHideArrows = () => {
     if (myRef.current.scrollLeft <= 20) setDispLeftArr(false)
     else setDispLeftArr(true)
@@ -49,7 +60,14 @@ const BooksCarousel = ({ books }) => {
       
       <div className="carousel-wrapper" ref={myRef} onScroll={debouncedScroll}>
         { Array(books) && books?.length > 0 && books.map(
-            (book, i) => <CarouselCard key={i} book={book} />
+            (book, i) => 
+              <CarouselCard 
+                key={i}
+                book={book}
+                workId={book?.key?.split('/works/')[1]}
+                isFavorite={favorites?.indexOf(book?.key?.split('/works/')[1]) != -1}
+                token={token}
+              />
           )
         }
       </div>
