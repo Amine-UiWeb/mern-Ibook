@@ -21,14 +21,14 @@ const WorkPage = () => {
   const workId = pathname?.split('/works/')[1]
 
   // note: comment temporarily while developping
-  // useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
+  useEffect(() => { window.scrollTo(0, 0); }, [pathname]);
   
 
   /* ------------ */
   // book details 
   /* ------------ */
 
-  // fetch book info using search endpoint:
+  // fetch work information using search endpoint:
   const { 
     data, isFetchComplete: searchFetchComplete, isFetchError: isSearchFetchError 
   } = useFetchData({ end: 'b_searchWork', dep: pathname, pathname: pathname }) 
@@ -43,21 +43,21 @@ const WorkPage = () => {
   let publishDate = searchData?.first_publish_year
   let subjects = searchData?.subject
   let firstSentence = searchData?.first_sentence
-  let cover_i = searchData?.covers?.filter(id => id !== -1)?.[0]
+  let cover_i = searchData?.cover_i
 
 
-  // fetch book dscription using works endpoint:
+  // fetch work dscription using works endpoint:
   const { data: workData, isFetchComplete: workFetchComplete } 
     = useFetchData({ end: 'b_work', dep: workId, pathname: pathname })
   let description = workData?.description?.value || workData?.description
 
 
   // Fetch book cover:
-  const { image: bookCover } = useFetchImage({ 
+  const { image: bookCover, isImageLoading, isFetchCompleted } = useFetchImage({ 
     end: 'b_cover', dep: cover_i, pathname: pathname, imageSize: 'L'
   })
 
-  
+
   /* -------------- */
   // author details
   /* -------------- */
@@ -90,8 +90,9 @@ const WorkPage = () => {
   /* ------------ */
 
   // Fetch author works 
-  const { data: authorWorks } = 
-    useFetchData({ end: 'b_authorworks', dep: searchData, pathname: pathname })
+  const { data: authorWorks } = useFetchData({ 
+    end: 'b_authorworks', dep: searchData, pathname: pathname 
+  })
   
 
   // work search by workId failed
@@ -108,7 +109,8 @@ const WorkPage = () => {
       <section className="details-grid">
 
         <div className="cover">
-          { bookCover ? <img src={bookCover} alt="book-cover" /> : <DotsLoader /> }
+          { !isFetchCompleted && <DotsLoader /> }
+          { isFetchCompleted && <img src={bookCover} alt="book-cover" /> }
         </div>
         
         <div className="info">

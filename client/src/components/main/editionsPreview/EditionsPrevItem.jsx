@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 
 const EditionsPrevItem = ({ ia }) => {
 
-  const { image, isImageLoading, isFetchError } = useFetchImage({
+  const { image, isFetchError } = useFetchImage({
     end: 'edition_cover', dep: ia, pathname: null, imageSize: 'S'
   }) 
   
@@ -11,8 +11,8 @@ const EditionsPrevItem = ({ ia }) => {
   return (
     <Link 
       to="#" 
-      className="d-din" 
-      style={{ display: isFetchError ? 'none' : 'inline' }} 
+      className="a"
+      style={{ display: isFetchError ? 'none' : 'inline-block' }} 
     >
       <img src={image} />
     </Link>

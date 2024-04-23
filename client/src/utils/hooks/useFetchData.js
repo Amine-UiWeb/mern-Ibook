@@ -36,7 +36,7 @@ const useFetchData = ({ end, dep, pathname }) => {
         let fields = 
           'fields=title,author_name,first_publish_year,number_of_pages_median,cover_i,' + 
           'first_sentence,ratings_average,ratings_count,author_key,subject'
-        url = `https://openlibrary.org/search.json?q=${dep}&${fields}&limit=1`
+        url = `https://openlibrary.org/search.json?q=${dep}&${fields}`
       } 
 
       else if (end == 'b_authorByKey') {

@@ -1,17 +1,19 @@
 
-.preview-covers a { 
-  font-size: 6.9px;
+.preview-covers {
+  display: flex;
 }
+
 .preview-covers img { 
-  display: inline;
-  aspect-ratio: auto 30 / 45;
+  display: block;
+  height: 47px;
+  max-height: 100%;
   width: 30px;
-  height: 45px;
   max-width: 100%;
-  margin-right: .2rem;
+  font-size: 6.9px;
+  border: 1px solid var(--gray-200);
   border-radius: 4px; 
   opacity: .7; 
   cursor: pointer;
-  font-size: 6.9px;
+  margin: 0 .2rem 0 0;
 }
 .preview-covers img:hover { opacity: 1; }

@@ -8,6 +8,7 @@ const useFetchImage = ({ end, dep, pathname, imageSize }) => {
   const effectRan = useRef(false)
   const [image, setImage] = useState(null)
   const [isImageLoading, setIsImageLoading] = useState(false)
+  const [isFetchCompleted, setIsFetchCompleted] = useState(false)
   const [isFetchError, setIsFetchError] = useState(false)
   
   useEffect(() => {
@@ -18,10 +19,11 @@ const useFetchImage = ({ end, dep, pathname, imageSize }) => {
     }
 
     // exit when the dep is still null
-    else if (!dep) setIsImageLoading(true) 
+    else if (!dep) setIsFetchCompleted(prev => false)
 
     else {
       setIsImageLoading(prev => true)
+      setIsFetchCompleted(prev => false)
       setIsFetchError(prev => false)
 
       let url
@@ -54,7 +56,7 @@ const useFetchImage = ({ end, dep, pathname, imageSize }) => {
     
 
       // note: use setTimeout only in development
-      setTimeout(() => {
+      // setTimeout(() => {
         fetch(url, { method: 'GET', cache: 'force-cache' })
           .then(res => res.blob())
           .then(blob => {
@@ -62,6 +64,7 @@ const useFetchImage = ({ end, dep, pathname, imageSize }) => {
             reader.onload = function () { 
               setImage(prev => this.result) 
               setIsImageLoading(prev => false)
+              setIsFetchCompleted(prev => true)
             }
             reader.readAsDataURL(blob)
           })
@@ -69,14 +72,15 @@ const useFetchImage = ({ end, dep, pathname, imageSize }) => {
             setIsFetchError(prev => true)
             setImage(prev => null)
             setIsImageLoading(prev => false)
+            setIsFetchCompleted(prev => true)
           })
-      }, 0);
+      // }, 0);
 
     }
 
   }, [dep, pathname])
 
-  return { image, isImageLoading ,isFetchError }
+  return { image, isImageLoading ,isFetchError, isFetchCompleted }
 }
 
 export default useFetchImage
